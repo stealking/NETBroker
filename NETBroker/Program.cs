@@ -20,6 +20,8 @@ builder.Services.ConfigureLoggerService();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAuthentication();
+builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;

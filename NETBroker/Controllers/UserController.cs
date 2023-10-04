@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Core.ActionFilters;
 using Core.Entities;
+using Core.Entities.Enums;
 using Core.Extensions;
 using Core.Models.Requests.Users;
 using Core.Models.Response.Users;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NETBroker.Controllers
@@ -23,17 +26,17 @@ namespace NETBroker.Controllers
 
         [HttpGet]
         [Route("")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var user = serviceManager.UserService.GetAll();
+            var user = await serviceManager.UserService.GetAll();
             return CreateSuccessResult(user);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var user = serviceManager.UserService.GetById(id);
+            var user = await serviceManager.UserService.GetById(id);
             if (user == null)
             {
                 return CreateFailResult("User not found.");
@@ -43,16 +46,23 @@ namespace NETBroker.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
-        public IActionResult Login([FromBody] UserLoginRequest request)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            var user = serviceManager.UserService.Autheticate(request);
+            var user = await serviceManager.UserService.Autheticate(request);
             if (user == null)
             {
                 return CreateFailResult("UserName or password is incorrect.");
             }
 
-            return CreateSuccessResult(mapper.Map<UserResponse>(user));
+            var token = serviceManager.AuthenticationService.CreateToken(user);
+
+            return CreateSuccessResult( new
+            {
+                token,
+                user = mapper.Map<UserResponse>(user)
+            });
         }
 
         [HttpPost]
