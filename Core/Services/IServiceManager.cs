@@ -4,5 +4,6 @@
     {
         IUserService UserService { get; }
         ISupplierService SupplierService { get; }
+        IAuthenticationService AuthenticationService { get; }
     }
 }

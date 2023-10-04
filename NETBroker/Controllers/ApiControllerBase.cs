@@ -1,10 +1,12 @@
 ﻿using Core.Models.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace NETBroker.Controllers
 {
     [ApiController]
+    [Authorize]
     public class ApiControllerBase : ControllerBase
     {
         protected IActionResult CreateSuccessResult<T>(T result)
