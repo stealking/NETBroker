@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NETBroker/LocalDatabase.db-shm
+/NETBroker/LocalDatabase.db-wal
+/NETBroker/internal_logs/internallog.txt
