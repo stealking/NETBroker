@@ -3,21 +3,19 @@ using Core.Extensions;
 using Core.Models.Requests.Users;
 using Core.Repositories;
 using Core.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Services
 {
     public sealed class UserService : IUserService
     {
         private IRepositoryManager repositoryManager;
-        public UserService(IRepositoryManager repositoryManager)
+        private UserManager<UserProfile> userManager;
+
+        public UserService(IRepositoryManager repositoryManager, UserManager<UserProfile> userManager)
         {
             this.repositoryManager = repositoryManager;
-        }
-
-        public async Task<UserProfile?> Autheticate(UserLoginRequest request)
-        {
-            var user = (await repositoryManager.User.FindByConditionAsync(x => x.UserName == request.UserName && x.IsActive)).OfType<UserProfile>().FirstOrDefault();
-            return user == null || !StringExtensions.VerifyHashedPassword(user.PasswordHash, request.Password) ? null : user;
+            this.userManager = userManager;
         }
 
         public async Task<UserProfile> Create(UserProfile user)
@@ -47,7 +45,12 @@ namespace Domain.Services
 
         public async Task<UserProfile?> GetById(int id)
         {
-            return (await repositoryManager.User.FindByConditionAsync(x => x.Id == id && x.IsActive)).FirstOrDefault();
+            var user = await userManager.FindByIdAsync(id.ToString());
+            if (user != null)
+            {
+                user.Roles = await userManager.GetRolesAsync(user);
+            }
+            return user;
         }
 
         public async Task<UserProfile?> GetByUserName(string? userName)

@@ -1,6 +1,9 @@
-﻿using Core.Repositories;
+﻿using AutoMapper;
+using Core.Entities;
+using Core.Repositories;
 using Core.Services;
 using Core.Settings;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Services
 {
@@ -10,11 +13,11 @@ namespace Domain.Services
         private readonly Lazy<ISupplierService> _supplierService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, AppSettings appSettings)
+        public ServiceManager(IRepositoryManager repositoryManager, UserManager<UserProfile> userManager, AppSettings appSettings, IMapper mapper)
         {
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager));
+            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, userManager));
             _supplierService = new Lazy<ISupplierService>(() => new SupplierService(repositoryManager));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(appSettings));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, appSettings, mapper));
         }
         public IUserService UserService => _userService.Value;
         public ISupplierService SupplierService => _supplierService.Value;

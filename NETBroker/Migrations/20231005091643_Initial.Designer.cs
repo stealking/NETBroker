@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace NETBroker.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230921095404_Initial")]
+    [Migration("20231005091643_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -19,6 +19,53 @@ namespace NETBroker.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
+
+            modelBuilder.Entity("Core.Entities.ApplicationRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Partner",
+                            NormalizedName = "PARTNER"
+                        });
+                });
 
             modelBuilder.Entity("Core.Entities.CommisionType", b =>
                 {
@@ -106,7 +153,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(2173),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8334),
                             IsActive = true,
                             Name = "Contact 1"
                         },
@@ -114,7 +161,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(2178),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8339),
                             IsActive = true,
                             Name = "Contact 2"
                         },
@@ -122,7 +169,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(2179),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8340),
                             IsActive = true,
                             Name = "Contact 3"
                         },
@@ -130,7 +177,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(2180),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8340),
                             IsActive = true,
                             Name = "Contact 4"
                         },
@@ -138,7 +185,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(2181),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8341),
                             IsActive = true,
                             Name = "Contact 5"
                         });
@@ -218,7 +265,7 @@ namespace NETBroker.Migrations
                             ContactId = 1,
                             Creator = 1,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8608),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4073),
                             EnrollmentType = 0,
                             FronterId = 1,
                             IsActive = true,
@@ -235,7 +282,7 @@ namespace NETBroker.Migrations
                             ContactId = 1,
                             Creator = 2,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8614),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4080),
                             EnrollmentType = 0,
                             IsActive = true,
                             LegalEntityName = "John B",
@@ -306,7 +353,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 58398,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8916),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4399),
                             EndDate = new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "KWH",
                             IsActive = true,
@@ -323,7 +370,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 12303,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8923),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4407),
                             EndDate = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "CCF",
                             IsActive = true,
@@ -340,7 +387,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 835,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8925),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4410),
                             EndDate = new DateTime(2024, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "MWH",
                             IsActive = true,
@@ -357,7 +404,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 160880,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8927),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4412),
                             EndDate = new DateTime(2024, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "KWH",
                             IsActive = true,
@@ -374,7 +421,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 89340,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8928),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4413),
                             EndDate = new DateTime(2024, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "THM",
                             IsActive = true,
@@ -391,7 +438,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 36000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8930),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4415),
                             EndDate = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "KWH",
                             IsActive = true,
@@ -408,7 +455,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 4200,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8932),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4417),
                             EndDate = new DateTime(2024, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "MCF",
                             IsActive = true,
@@ -425,7 +472,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 1500,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8933),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4419),
                             EndDate = new DateTime(2024, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "MWH",
                             IsActive = true,
@@ -442,7 +489,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 60000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8937),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4420),
                             EndDate = new DateTime(2024, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "CCF",
                             IsActive = true,
@@ -459,7 +506,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 15000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(8939),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4422),
                             EndDate = new DateTime(2024, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EnergyUnitType = "KWH",
                             IsActive = true,
@@ -500,7 +547,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(599),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6522),
                             IsActive = true,
                             Name = "Customer 1"
                         },
@@ -508,7 +555,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(604),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6527),
                             IsActive = true,
                             Name = "Customer 2"
                         },
@@ -516,7 +563,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(605),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6527),
                             IsActive = true,
                             Name = "Customer 3"
                         },
@@ -524,7 +571,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(606),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6528),
                             IsActive = true,
                             Name = "Customer 4"
                         },
@@ -532,7 +579,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 3,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 593, DateTimeKind.Local).AddTicks(607),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6528),
                             IsActive = true,
                             Name = "Customer 5"
                         });
@@ -671,7 +718,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(7153),
+                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(2270),
                             IsActive = true,
                             Name = "IGS"
                         });
@@ -683,14 +730,29 @@ namespace NETBroker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Address")
+                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("BirthDay")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -700,62 +762,148 @@ namespace NETBroker.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Phone")
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(50)
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserType")
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("RoleId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "",
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 579, DateTimeKind.Local).AddTicks(1541),
-                            FullName = "Admin",
-                            IsActive = true,
-                            PasswordHash = "V79qBaPpcUa+25VP7/kZSAnFXcwiRVEbLf9Ty493CjR252jtonOUmSupDRUiMLUN",
-                            Phone = "",
-                            UserName = "admin",
-                            UserType = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "",
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 585, DateTimeKind.Local).AddTicks(7902),
-                            FullName = "User",
-                            IsActive = true,
-                            PasswordHash = "OBKZ9okBUcXk9mKpDYJrzpXNtWP7ic9UdNOR+gZlRnSsGQgQny89EX9uH/ZnWWQA",
-                            Phone = "",
-                            UserName = "user",
-                            UserType = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Address = "",
-                            DateCreated = new DateTime(2023, 9, 21, 16, 54, 4, 592, DateTimeKind.Local).AddTicks(3953),
-                            FullName = "Partner",
-                            IsActive = true,
-                            PasswordHash = "Eo19PoEUbmCa2L206YwQ4/5bCKfnXZWRXBlUUnIUNQ2S7AT2TEi3Bv31rWhp86vm",
-                            Phone = "",
-                            UserName = "partner",
-                            UserType = 2
-                        });
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.CommisionType", b =>
@@ -820,6 +968,57 @@ namespace NETBroker.Migrations
                         .IsRequired();
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("Core.Entities.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("Core.Entities.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("Core.Entities.UserProfile", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.Contact", b =>

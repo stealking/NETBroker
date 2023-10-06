@@ -3,6 +3,7 @@ using Core.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NETBroker.Extensions;
+using NETBroker.Migrations;
 using NLog;
 
 
@@ -21,6 +22,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -49,8 +51,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseCors(ServiceExtensions.CorsPolicy);
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Seed the default user
+DataSeeder.SeedDefaultUserAsync(app.Services).Wait();
 
 app.Run();

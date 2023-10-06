@@ -1,6 +1,9 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
+using Core.Models.Requests.Users;
 using Core.Services;
 using Core.Settings;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,17 +13,39 @@ namespace Domain.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        readonly AppSettings settings;
+        private readonly AppSettings settings;
+        private readonly UserManager<UserProfile> userManager;
+        private readonly IMapper mapper;
 
-        public AuthenticationService(AppSettings settings)
+        public AuthenticationService(UserManager<UserProfile> userManager, AppSettings settings, IMapper mapper)
         {
+            this.userManager = userManager;
             this.settings = settings;
+            this.mapper = mapper;
         }
 
-        public string CreateToken(UserProfile user)
+        public async Task<IdentityResult> RegisterUser(UserRegisterRequest userRegisterRequest)
+        {
+            var user = mapper.Map<UserProfile>(userRegisterRequest);
+            var result = await userManager.CreateAsync(user, userRegisterRequest.Password);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRolesAsync(user, userRegisterRequest.Roles);
+            }
+            return result;
+        }
+
+        public async Task<UserProfile?> Autheticate(UserLoginRequest request)
+        {
+            var user = await userManager.FindByNameAsync(request.UserName);
+            var result = user != null && await userManager.CheckPasswordAsync(user, request.Password);
+            return result ? user : null;
+        }
+
+        public async Task<string> CreateToken(UserProfile user)
         {
             var signingCredentials = GetSigningCredentials();
-            var claims = GetClaims(user);
+            var claims = await GetClaims(user);
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
@@ -32,15 +57,17 @@ namespace Domain.Services
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        private List<Claim> GetClaims(ApplicationUser user)
+        private async Task<List<Claim>> GetClaims(UserProfile user)
         {
-            var claims = new List<Claim>()
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.UserType.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
             };
-
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
             return claims;
         }
 

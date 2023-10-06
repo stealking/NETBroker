@@ -1,4 +1,5 @@
-﻿using Core.Repositories;
+﻿using Core.Entities;
+using Core.Repositories;
 using Core.Services;
 using Core.Settings;
 using Domain.Services;
@@ -6,6 +7,7 @@ using Infrastructure.Context;
 using Infrastructure.Repositories;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -39,6 +41,22 @@ namespace NETBroker.Extensions
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerManager, LoggerManager>();
+
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<UserProfile, ApplicationRole>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 6;
+                o.User.RequireUniqueEmail = true;
+                o.Lockout.AllowedForNewUsers = false;
+            })
+            .AddEntityFrameworkStores<DataContext>()
+            .AddDefaultTokenProviders();
+        }
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {

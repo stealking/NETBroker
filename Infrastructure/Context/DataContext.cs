@@ -1,11 +1,12 @@
 ﻿using Core.Entities;
 using Infrastructure.Context.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Context
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<UserProfile, ApplicationRole, int>
     {
         protected readonly IConfiguration Configuration;
 
@@ -34,9 +35,9 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new CommisionTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DepositConfiguration());
             modelBuilder.ApplyConfiguration(new DateConfigConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
-        public DbSet<UserProfile> Users { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Contract> Contracts { get; set; }
         public DbSet<ContractItem> ContractItems { get; set; }
