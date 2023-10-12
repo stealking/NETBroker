@@ -1,26 +1,25 @@
-﻿using Core.Entities.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Requests.Users
 {
     public class UserRegisterRequest
     {
         [Required]
-        public string? UserName { get; set; }
+        public string? UserName { get; init; }
 
         [Required]
-        public string? Password { get; set; }
+        public string? Password { get; init; }
 
         [Required]
-        public string? FullName { get; set; }
+        public string? FullName { get; init; }
 
-        [Required]
-        public UserTypes? UserType { get; set; }
+        public string? Address { get; init; }
+        public DateTime? BirthDay { get; init; }
 
-        public string? Address { get; set; }
-        public DateTime? BirthDay { get; set; }
+        public string? Email { get; init; }
 
         [Phone(ErrorMessage = "Invalid phone number")]
-        public string? Phone { get; set; }
+        public string? PhoneNumber { get; init; }
+        public ICollection<string>? Roles { get; init; }
     }
 }

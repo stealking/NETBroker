@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Core.ActionFilters;
 using Core.Entities;
-using Core.Entities.Enums;
-using Core.Extensions;
 using Core.Models.Requests.Users;
 using Core.Models.Response.Users;
 using Core.Services;
@@ -29,7 +26,7 @@ namespace NETBroker.Controllers
         public async Task<IActionResult> GetAll()
         {
             var user = await serviceManager.UserService.GetAll();
-            return CreateSuccessResult(user);
+            return CreateSuccessResult(mapper.Map<List<UserProfile>, List<UserResponse>>(user));
         }
 
         [HttpGet]
@@ -42,7 +39,7 @@ namespace NETBroker.Controllers
                 return CreateFailResult("User not found.");
             }
 
-            return CreateSuccessResult(user);
+            return CreateSuccessResult(mapper.Map<UserResponse>(user));
         }
 
         [HttpPost]
@@ -50,13 +47,13 @@ namespace NETBroker.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            var user = await serviceManager.UserService.Autheticate(request);
+            var user = await serviceManager.AuthenticationService.Autheticate(request);
             if (user == null)
             {
                 return CreateFailResult("UserName or password is incorrect.");
             }
 
-            var token = serviceManager.AuthenticationService.CreateToken(user);
+            var token = await serviceManager.AuthenticationService.CreateToken(user);
 
             return CreateSuccessResult( new
             {
@@ -66,28 +63,25 @@ namespace NETBroker.Controllers
         }
 
         [HttpPost]
-        [Route("create")]
+        [AllowAnonymous]
+        [Route("")]
         public async Task<IActionResult> Create([FromBody] UserRegisterRequest request)
         {
-            if (!ModelState.IsValid)
+            var result = await serviceManager.AuthenticationService.RegisterUser(request);
+            if (!result.Succeeded)
             {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
                 return CreateModelStateErrors(ModelState);
             }
-
-            var user = await serviceManager.UserService.GetByUserName(request.UserName);
-            if (user != null)
-            {
-                return CreateFailResult("The UserName has already existed");
-            }
-
-            user = mapper.Map<UserProfile>(request);
-            user.PasswordHash = StringExtensions.HashPassword(request.Password);
-            await serviceManager.UserService.Create(user);
-            return CreateSuccessResult(mapper.Map<UserResponse>(user));
+            return CreateSuccess();
         }
 
         [HttpPut]
-        [Route("update")]
+        [Route("")]
         public async Task<IActionResult> Update([FromBody] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -107,7 +101,7 @@ namespace NETBroker.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var user = await serviceManager.UserService.GetById(id);
