@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,9 +11,19 @@ namespace Infrastructure.Context.Configurations
         {
             builder.HasKey(p => p.Id);
 
+            builder.HasMany(p => p.CommisionTypes)
+              .WithOne(p => p.SaleProgram)
+              .HasForeignKey(p => p.SalesProgramId)
+              .HasPrincipalKey(p => p.Id);
+
+            builder.HasMany(p => p.Qualifications)
+                .WithOne(p => p.SaleProgram)
+                .HasForeignKey(p => p.SalesProgramId)
+                .HasPrincipalKey(p => p.Id);
+
             builder.HasData(
-                new SaleProgram(1, "KWH", "50% contract upfront then residual", "PercentageContractUpfront + PercentageContractResidual"),
-                new SaleProgram(2, "THM", "Forecast annual margin divided by four", "QuarterlyUpfront")
+                new SaleProgram(1, EnergyUnitType.KWH, "50% contract upfront then residual", "PercentageContractUpfront + PercentageContractResidual"),
+                new SaleProgram(2, EnergyUnitType.THM, "Forecast annual margin divided by four", "QuarterlyUpfront")
             );
         }
     }

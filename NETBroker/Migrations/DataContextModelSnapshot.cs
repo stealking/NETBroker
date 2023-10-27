@@ -70,22 +70,31 @@ namespace NETBroker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CommissionConfigurationTypeId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("CommissionConfigurationTypeId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("MarginPercent")
+                    b.Property<int?>("DateConfigId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("MarginPercent")
                         .HasColumnType("TEXT");
 
                     b.Property<double?>("ProgramAdder")
                         .HasColumnType("REAL");
 
-                    b.Property<string>("ProgramAdderType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProgramAdderType")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int>("SalesProgramId")
+                    b.Property<int?>("SalesProgramId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CommissionConfigurationTypeId");
+
+                    b.HasIndex("DateConfigId");
 
                     b.HasIndex("SalesProgramId");
 
@@ -95,29 +104,64 @@ namespace NETBroker.Migrations
                         new
                         {
                             Id = 1,
-                            CommissionConfigurationTypeId = "ContractUpfront",
-                            MarginPercent = "0.5",
+                            CommissionConfigurationTypeId = 1,
+                            DateConfigId = 1,
+                            MarginPercent = 0.5m,
                             ProgramAdder = 0.0070000000000000001,
-                            ProgramAdderType = "Override",
+                            ProgramAdderType = 1,
                             SalesProgramId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CommissionConfigurationTypeId = "PercentageContractResidual",
-                            MarginPercent = "0.5",
+                            CommissionConfigurationTypeId = 2,
+                            DateConfigId = 2,
+                            MarginPercent = 0.5m,
                             ProgramAdder = 0.0070000000000000001,
-                            ProgramAdderType = "Override",
+                            ProgramAdderType = 1,
                             SalesProgramId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CommissionConfigurationTypeId = "QuarterlyUpfront",
-                            MarginPercent = "x",
+                            CommissionConfigurationTypeId = 3,
+                            DateConfigId = 3,
+                            MarginPercent = 0m,
                             ProgramAdder = 0.0070000000000000001,
-                            ProgramAdderType = "Override",
+                            ProgramAdderType = 1,
                             SalesProgramId = 2
+                        });
+                });
+
+            modelBuilder.Entity("Core.Entities.CommissionConfigurationType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommissionConfigurationTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ContractUpfront"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "PercentageContractResidual"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "QuarterlyUpfront"
                         });
                 });
 
@@ -150,7 +194,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8334),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4316),
                             IsActive = true,
                             Name = "Contact 1"
                         },
@@ -158,7 +202,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8339),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4320),
                             IsActive = true,
                             Name = "Contact 2"
                         },
@@ -166,7 +210,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8340),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4321),
                             IsActive = true,
                             Name = "Contact 3"
                         },
@@ -174,7 +218,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8340),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4321),
                             IsActive = true,
                             Name = "Contact 4"
                         },
@@ -182,7 +226,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(8341),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4322),
                             IsActive = true,
                             Name = "Contact 5"
                         });
@@ -203,7 +247,8 @@ namespace NETBroker.Migrations
                     b.Property<int?>("CloserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ContactId")
+                    b.Property<int?>("ContactId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Creator")
@@ -234,21 +279,21 @@ namespace NETBroker.Migrations
                     b.Property<DateTime?>("SoldDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("UserProfileId")
+                    b.Property<int?>("SupplierId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CloserId");
 
                     b.HasIndex("ContactId");
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("SupplierId");
+                    b.HasIndex("FronterId");
 
-                    b.HasIndex("UserProfileId");
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Contracts");
 
@@ -262,7 +307,7 @@ namespace NETBroker.Migrations
                             ContactId = 1,
                             Creator = 1,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4073),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(936),
                             EnrollmentType = 0,
                             FronterId = 1,
                             IsActive = true,
@@ -276,11 +321,13 @@ namespace NETBroker.Migrations
                             Id = 2,
                             BillingChargeType = 0,
                             BillingType = 0,
+                            CloserId = 1,
                             ContactId = 1,
                             Creator = 2,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4080),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(943),
                             EnrollmentType = 0,
+                            FronterId = 1,
                             IsActive = true,
                             LegalEntityName = "John B",
                             PricingType = 0,
@@ -310,17 +357,14 @@ namespace NETBroker.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("EnergyUnitType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EnergyUnitType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ProductType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProductType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Rate")
                         .HasColumnType("TEXT");
@@ -350,11 +394,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 58398,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4399),
-                            EndDate = new DateTime(2025, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "KWH",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1268),
+                            EnergyUnitType = 0,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 0.01275m,
                             StartDate = new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 24,
@@ -366,12 +409,11 @@ namespace NETBroker.Migrations
                             Adder = 0.073m,
                             AnnualUsage = 12303,
                             ContractId = 1,
-                            Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4407),
-                            EndDate = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "CCF",
+                            Creator = 2,
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1272),
+                            EnergyUnitType = 1,
                             IsActive = true,
-                            ProductType = "Gas",
+                            ProductType = 1,
                             Rate = 0.2275m,
                             StartDate = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 16,
@@ -383,12 +425,11 @@ namespace NETBroker.Migrations
                             Adder = 6.3m,
                             AnnualUsage = 835,
                             ContractId = 1,
-                            Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4410),
-                            EndDate = new DateTime(2024, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "MWH",
+                            Creator = 3,
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1275),
+                            EnergyUnitType = 2,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 23m,
                             StartDate = new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 12,
@@ -400,12 +441,11 @@ namespace NETBroker.Migrations
                             Adder = 0.0073m,
                             AnnualUsage = 160880,
                             ContractId = 1,
-                            Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4412),
-                            EndDate = new DateTime(2024, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "KWH",
+                            Creator = 4,
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1276),
+                            EnergyUnitType = 0,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 0.02275m,
                             StartDate = new DateTime(2023, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 15,
@@ -417,12 +457,11 @@ namespace NETBroker.Migrations
                             Adder = 0.083m,
                             AnnualUsage = 89340,
                             ContractId = 1,
-                            Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4413),
-                            EndDate = new DateTime(2024, 6, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "THM",
+                            Creator = 5,
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1277),
+                            EnergyUnitType = 3,
                             IsActive = true,
-                            ProductType = "Gas",
+                            ProductType = 1,
                             Rate = 0.3275m,
                             StartDate = new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 12,
@@ -435,11 +474,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 36000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4415),
-                            EndDate = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "KWH",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1279),
+                            EnergyUnitType = 0,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 0.0225m,
                             StartDate = new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 17,
@@ -452,11 +490,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 4200,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4417),
-                            EndDate = new DateTime(2024, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "MCF",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1280),
+                            EnergyUnitType = 4,
                             IsActive = true,
-                            ProductType = "Gas",
+                            ProductType = 1,
                             Rate = 2.275m,
                             StartDate = new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 14,
@@ -469,11 +506,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 1500,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4419),
-                            EndDate = new DateTime(2024, 8, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "MWH",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1281),
+                            EnergyUnitType = 2,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 20.75m,
                             StartDate = new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 16,
@@ -486,11 +522,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 60000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4420),
-                            EndDate = new DateTime(2024, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "CCF",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1283),
+                            EnergyUnitType = 1,
                             IsActive = true,
-                            ProductType = "Gas",
+                            ProductType = 1,
                             Rate = 0.1275m,
                             StartDate = new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 18,
@@ -503,11 +538,10 @@ namespace NETBroker.Migrations
                             AnnualUsage = 15000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(4422),
-                            EndDate = new DateTime(2024, 6, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EnergyUnitType = "KWH",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1284),
+                            EnergyUnitType = 0,
                             IsActive = true,
-                            ProductType = "Elec",
+                            ProductType = 0,
                             Rate = 0.04275m,
                             StartDate = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TermMonth = 15,
@@ -544,7 +578,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6522),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2759),
                             IsActive = true,
                             Name = "Customer 1"
                         },
@@ -552,7 +586,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6527),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2764),
                             IsActive = true,
                             Name = "Customer 2"
                         },
@@ -560,7 +594,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6527),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2765),
                             IsActive = true,
                             Name = "Customer 3"
                         },
@@ -568,7 +602,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6528),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2765),
                             IsActive = true,
                             Name = "Customer 4"
                         },
@@ -576,7 +610,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 3,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(6528),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2766),
                             IsActive = true,
                             Name = "Customer 5"
                         });
@@ -591,11 +625,11 @@ namespace NETBroker.Migrations
                     b.Property<string>("ControlDateModifierType")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ControlDateOffsetType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ControlDateOffsetType")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double>("ControlDateOffsetValue")
-                        .HasColumnType("REAL");
+                    b.Property<decimal>("ControlDateOffsetValue")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ControlDateType")
                         .HasColumnType("TEXT");
@@ -603,6 +637,32 @@ namespace NETBroker.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DateConfigs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ControlDateModifierType = "NoModifier",
+                            ControlDateOffsetType = 5,
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ControlDateModifierType = "NoModifier",
+                            ControlDateOffsetType = 0,
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ControlDateModifierType = "NoModifier",
+                            ControlDateOffsetType = 0,
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
+                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Deposit", b =>
@@ -650,6 +710,31 @@ namespace NETBroker.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Core.Entities.Qualification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("SalesProgramId")
+                        .IsRequired()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SalesProgramId");
+
+                    b.ToTable("Qualifications");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Qualification");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Core.Entities.SaleProgram", b =>
                 {
                     b.Property<int>("Id")
@@ -659,8 +744,8 @@ namespace NETBroker.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EnergyUnitType")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EnergyUnitType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SalesProgramType")
                         .HasColumnType("TEXT");
@@ -674,14 +759,14 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Description = "50% contract upfront then residual",
-                            EnergyUnitType = "KWH",
+                            EnergyUnitType = 0,
                             SalesProgramType = "PercentageContractUpfront + PercentageContractResidual"
                         },
                         new
                         {
                             Id = 2,
                             Description = "Forecast annual margin divided by four",
-                            EnergyUnitType = "THM",
+                            EnergyUnitType = 3,
                             SalesProgramType = "QuarterlyUpfront"
                         });
                 });
@@ -715,7 +800,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 10, 5, 16, 16, 43, 445, DateTimeKind.Local).AddTicks(2270),
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 644, DateTimeKind.Local).AddTicks(9443),
                             IsActive = true,
                             Name = "IGS"
                         });
@@ -802,6 +887,25 @@ namespace NETBroker.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6cdab079-9aab-4013-892d-e0c46406a634",
+                            DateCreated = new DateTime(2023, 10, 26, 16, 54, 4, 644, DateTimeKind.Local).AddTicks(6516),
+                            Email = "admin@example.com",
+                            EmailConfirmed = true,
+                            FullName = "Admin",
+                            IsActive = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN",
+                            PhoneNumberConfirmed = true,
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -903,19 +1007,88 @@ namespace NETBroker.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Core.Entities.AnnualUssageQualification", b =>
+                {
+                    b.HasBaseType("Core.Entities.Qualification");
+
+                    b.Property<int>("FromAnnualUsage")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ToAnnualUsage")
+                        .HasColumnType("INTEGER");
+
+                    b.HasDiscriminator().HasValue("AnnualUssageQualification");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            SalesProgramId = 2,
+                            FromAnnualUsage = 50000,
+                            ToAnnualUsage = 100000
+                        });
+                });
+
+            modelBuilder.Entity("Core.Entities.ExpirationQualification", b =>
+                {
+                    b.HasBaseType("Core.Entities.Qualification");
+
+                    b.Property<DateTime>("EffectiveDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("ExpirationQualification");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SalesProgramId = 1,
+                            EffectiveDate = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiryDate = new DateTime(2030, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SalesProgramId = 2,
+                            EffectiveDate = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiryDate = new DateTime(2099, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
             modelBuilder.Entity("Core.Entities.CommisionType", b =>
                 {
+                    b.HasOne("Core.Entities.CommissionConfigurationType", "CommissionConfigurationType")
+                        .WithMany("CommisionTypes")
+                        .HasForeignKey("CommissionConfigurationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.DateConfig", "DateConfig")
+                        .WithMany("CommisionTypes")
+                        .HasForeignKey("DateConfigId");
+
                     b.HasOne("Core.Entities.SaleProgram", "SaleProgram")
                         .WithMany("CommisionTypes")
                         .HasForeignKey("SalesProgramId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("CommissionConfigurationType");
+
+                    b.Navigation("DateConfig");
+
                     b.Navigation("SaleProgram");
                 });
 
             modelBuilder.Entity("Core.Entities.Contract", b =>
                 {
+                    b.HasOne("Core.Entities.UserProfile", "Closer")
+                        .WithMany("CloserContracts")
+                        .HasForeignKey("CloserId");
+
                     b.HasOne("Core.Entities.Contact", "Contact")
                         .WithMany("Contracts")
                         .HasForeignKey("ContactId")
@@ -928,19 +1101,23 @@ namespace NETBroker.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.UserProfile", "Fronter")
+                        .WithMany("FronterContracts")
+                        .HasForeignKey("FronterId");
+
                     b.HasOne("Core.Entities.Supplier", "Supplier")
                         .WithMany("Contracts")
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.UserProfile", null)
-                        .WithMany("Contracts")
-                        .HasForeignKey("UserProfileId");
+                    b.Navigation("Closer");
 
                     b.Navigation("Contact");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Fronter");
 
                     b.Navigation("Supplier");
                 });
@@ -965,6 +1142,17 @@ namespace NETBroker.Migrations
                         .IsRequired();
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Core.Entities.Qualification", b =>
+                {
+                    b.HasOne("Core.Entities.SaleProgram", "SaleProgram")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("SalesProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SaleProgram");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -1018,6 +1206,11 @@ namespace NETBroker.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Core.Entities.CommissionConfigurationType", b =>
+                {
+                    b.Navigation("CommisionTypes");
+                });
+
             modelBuilder.Entity("Core.Entities.Contact", b =>
                 {
                     b.Navigation("Contracts");
@@ -1033,9 +1226,16 @@ namespace NETBroker.Migrations
                     b.Navigation("Contracts");
                 });
 
+            modelBuilder.Entity("Core.Entities.DateConfig", b =>
+                {
+                    b.Navigation("CommisionTypes");
+                });
+
             modelBuilder.Entity("Core.Entities.SaleProgram", b =>
                 {
                     b.Navigation("CommisionTypes");
+
+                    b.Navigation("Qualifications");
                 });
 
             modelBuilder.Entity("Core.Entities.Supplier", b =>
@@ -1047,7 +1247,9 @@ namespace NETBroker.Migrations
 
             modelBuilder.Entity("Core.Entities.UserProfile", b =>
                 {
-                    b.Navigation("Contracts");
+                    b.Navigation("CloserContracts");
+
+                    b.Navigation("FronterContracts");
                 });
 #pragma warning restore 612, 618
         }

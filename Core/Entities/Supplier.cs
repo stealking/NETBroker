@@ -5,7 +5,7 @@ namespace Core.Entities
     public class Supplier : BaseCreateTable
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required(ErrorMessage = "")]
         [MaxLength(100, ErrorMessage = "Maximum length for the Name is 100 characters.")]

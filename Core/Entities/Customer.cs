@@ -6,7 +6,7 @@ namespace Core.Entities
     {
 
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required(ErrorMessage = "Name is required field.")]
         [MaxLength(100, ErrorMessage = "Maximum length for the Name is 100 characters.")]

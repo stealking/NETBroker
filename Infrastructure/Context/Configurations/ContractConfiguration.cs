@@ -17,7 +17,7 @@ namespace Infrastructure.Context.Configurations
 
             builder.HasData(
                 new Contract(1, 1, "John A", 1, 1, 1, 1, new DateTime(2023, 03, 14), BillingChargeTypes.AllIn, BillingTypes.ChickenRanch, EnrollmentTypes.TPV, PricingTypes.Matrix, 1),
-                new Contract(2, 1, "John B", 1, 1, null, null, new DateTime(2023, 01, 20), BillingChargeTypes.AllIn, BillingTypes.ChickenRanch, EnrollmentTypes.TPV, PricingTypes.Matrix, 2)
+                new Contract(2, 1, "John B", 1, 1, 1, 1, new DateTime(2023, 01, 20), BillingChargeTypes.AllIn, BillingTypes.ChickenRanch, EnrollmentTypes.TPV, PricingTypes.Matrix, 2)
                 );
         }
     }

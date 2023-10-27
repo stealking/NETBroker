@@ -18,20 +18,16 @@ namespace NETBroker.Migrations
 
                 await dbContext.Database.MigrateAsync(); // Ensure the database is created and up-to-date
 
-                if (!dbContext.Users.Any())
+                if (dbContext.Users.Any())
                 {
-                    var admin = new UserProfile
+                    var admin = await userManager.FindByNameAsync("admin");
+                    if (string.IsNullOrEmpty(admin?.PasswordHash))
                     {
-                        UserName = "admin",
-                        Email = "admin@example.com",
-                        FullName = "Admin"
-                    };
-
-                    var result = await userManager.CreateAsync(admin, "admin123!");
-
-                    if (result.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(admin, UserTypes.Admin.ToString());
+                        var result = await userManager.AddPasswordAsync(admin, "admin123!");
+                        if (result.Succeeded)
+                        {
+                            await userManager.AddToRoleAsync(admin, UserTypes.Admin.ToString());
+                        }
                     }
                 }
             }

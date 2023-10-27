@@ -1,6 +1,5 @@
 ﻿using Core.Entities.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -28,21 +27,11 @@ namespace Core.Entities
         }
 
         [Key]
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "SupplierId is required.")]
-        public int SupplierId { get; set; }
+        public int Id { get; init; }
 
         [Required(ErrorMessage = "LegalEntityName is required.")]
         public string? LegalEntityName { get; set; }
-
-        [Required(ErrorMessage = "CustomerId is required.")]
-        public int CustomerId { get; set; }
-
-        [Required(ErrorMessage = "ContactId is required.")]
-        public int ContactId { get; set; }
-        public int? CloserId { get; set; }
-        public int? FronterId { get; set; }
+       
         public DateTime? SoldDate { get; set; }
 
         [Required(ErrorMessage = "BillingChargeType is required.")]
@@ -57,13 +46,24 @@ namespace Core.Entities
         [Required(ErrorMessage = "PricingType is required.")]
         public PricingTypes PricingType { get; set; }
 
+        [Required(ErrorMessage = "SupplierId is required.")]
+        public int? SupplierId { get; set; }
         public Supplier? Supplier { get; set; }
-        public ICollection<ContractItem>? ContractItems { get; set; }
+
+        [Required(ErrorMessage = "ContactId is required.")]
+        public int? ContactId { get; set; }
         public Contact? Contact { get; set; }
-        [NotMapped]
+
+        public int? CloserId { get; set; }
         public UserProfile? Closer { get; set; }
-        [NotMapped]
+
+        public int? FronterId { get; set; }
         public UserProfile? Fronter { get; set; }
+
+        [Required(ErrorMessage = "CustomerId is required.")]
+        public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
+
+        public ICollection<ContractItem>? ContractItems { get; set; }
     }
 }
