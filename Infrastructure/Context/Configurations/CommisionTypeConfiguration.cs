@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,15 +9,10 @@ namespace Infrastructure.Context.Configurations
     {
         public void Configure(EntityTypeBuilder<CommisionType> builder)
         {
-            builder.HasOne(p => p.SaleProgram)
-                .WithMany(p => p.CommisionTypes)
-                .HasForeignKey(p => p.SalesProgramId)
-                .HasPrincipalKey(p => p.Id);
-
             builder.HasData(
-                new CommisionType(1, 1, "ContractUpfront", "Override", 0.007, "0.5"),
-                new CommisionType(2, 1, "PercentageContractResidual", "Override", 0.007, "0.5"),
-                new CommisionType(3, 2, "QuarterlyUpfront", "Override", 0.007, "x")
+                new CommisionType(1, 1, 1, 1, ProgramAdderType.Override, 0.007, 0.5m),
+                new CommisionType(2, 1, 2, 2, ProgramAdderType.Override, 0.007, 0.5m),
+                new CommisionType(3, 2, 3, 3, ProgramAdderType.Override, 0.007, 0m)
             );
         }
     }

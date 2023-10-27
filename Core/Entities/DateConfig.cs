@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
 {
@@ -8,7 +9,7 @@ namespace Core.Entities
         {
         }
 
-        public DateConfig(int id, string? controlDateType, string? controlDateModifierType, string? controlDateOffsetType, double controlDateOffsetValue)
+        public DateConfig(int id, string? controlDateType, string? controlDateModifierType, ControlDateOffsetType controlDateOffsetType, decimal controlDateOffsetValue)
         {
             Id = id;
             ControlDateType = controlDateType;
@@ -18,10 +19,12 @@ namespace Core.Entities
         }
 
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
         public string? ControlDateType { get; set; }
         public string? ControlDateModifierType { get; set; }
-        public string? ControlDateOffsetType { get; set; }
-        public double ControlDateOffsetValue { get; set; }
+        public ControlDateOffsetType ControlDateOffsetType { get; set; }
+        public decimal ControlDateOffsetValue { get; set; }
+
+        public ICollection<CommisionType>? CommisionTypes { get; set; }
     }
 }

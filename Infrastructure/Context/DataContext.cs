@@ -36,6 +36,10 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new DepositConfiguration());
             modelBuilder.ApplyConfiguration(new DateConfigConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new CommissionConfigurationTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new QualificationConfiguration());
+            modelBuilder.ApplyConfiguration(new ExpirationQualificationConfiguration());
+            modelBuilder.ApplyConfiguration(new AnnualUssageQualificationConfiguration());
         }
 
         public DbSet<Supplier> Suppliers { get; set; }
@@ -47,5 +51,7 @@ namespace Infrastructure.Context
         public DbSet<CommisionType> CommisionTypes { get; set; }
         public DbSet<Deposit> Deposits { get; set; }
         public DbSet<DateConfig> DateConfigs { get; set; }
+        public DbSet<CommissionConfigurationType> CommissionConfigurationTypes { get; set; }
+        public DbSet<Qualification> Qualifications { get; set; }
     }
 }

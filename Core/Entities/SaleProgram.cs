@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using Core.Entities.Enums;
+
+namespace Core.Entities
 {
     public class SaleProgram
     {
@@ -6,7 +8,7 @@
         {
         }
 
-        public SaleProgram(int id, string? energyUnitType, string? description, string? salesProgramType)
+        public SaleProgram(int id, EnergyUnitType energyUnitType, string? description, string? salesProgramType)
         {
             Id = id;
             EnergyUnitType = energyUnitType;
@@ -14,10 +16,11 @@
             SalesProgramType = salesProgramType;
         }
 
-        public int Id { get; set; }
-        public string? EnergyUnitType { get; set; }
+        public int Id { get; init; }
+        public EnergyUnitType EnergyUnitType { get; set; }
         public string? Description { get; set; }
         public string? SalesProgramType { get; set; }
         public ICollection<CommisionType>? CommisionTypes { get; set; }
+        public ICollection<Qualification>? Qualifications { get; set; }
     }
 }

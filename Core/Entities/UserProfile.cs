@@ -24,7 +24,7 @@ namespace Core.Entities
             EmailConfirmed = true;
             PhoneNumberConfirmed = true;
             NormalizedEmail = email.ToUpper();
-            NormalizedUserName = userName.ToUpper();
+            NormalizedUserName = userName?.ToUpper();
         }
 
         [MaxLength(255, ErrorMessage = "Maximum length for the full name is 255 characters")]
@@ -38,7 +38,8 @@ namespace Core.Entities
         public bool IsActive { get; set; } = true;
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public ICollection<Contract>? Contracts { get; set; }
+        public ICollection<Contract>? CloserContracts { get; set; }
+        public ICollection<Contract>? FronterContracts { get; set; }
 
         [NotMapped]
         public ICollection<string>? Roles { get; set; }

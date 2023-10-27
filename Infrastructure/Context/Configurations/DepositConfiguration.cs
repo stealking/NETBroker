@@ -15,9 +15,9 @@ namespace Infrastructure.Context.Configurations
                 .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasData(
-               new Deposit(1, 1, new DateTime(2023, 09, 14), (decimal)156.34),
-               new Deposit(2, 1, new DateTime(2023, 11, 27), (decimal)19.25),
-               new Deposit(3, 1, new DateTime(2023, 07, 29), (decimal)8.75)
+               new Deposit(1, 1, new DateTime(2023, 09, 14), 156.34m),
+               new Deposit(2, 1, new DateTime(2023, 11, 27), 19.25m),
+               new Deposit(3, 1, new DateTime(2023, 07, 29), 8.75m)
            );
         }
     }
