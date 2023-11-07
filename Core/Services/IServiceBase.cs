@@ -1,4 +1,6 @@
-﻿namespace Core.Services
+﻿using Core.Models.Requests;
+
+namespace Core.Services
 {
     public interface IServiceBase<T>
     {

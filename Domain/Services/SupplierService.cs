@@ -1,6 +1,10 @@
 ﻿using Core.Entities;
+using Core.Models.Requests;
+using Core.Models.Requests.Suppliers;
 using Core.Repositories;
 using Core.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Domain.Services
 {
@@ -33,8 +37,8 @@ namespace Domain.Services
 
         public async Task<List<Supplier>> GetAll()
         {
-            var suppliers = await repositoryManager.Supplier.FindAllAsync();
-            return suppliers.ToList();
+            var suppliers = await repositoryManager.Supplier.FindByCondition(x => x.IsActive).ToListAsync();
+            return suppliers;
         }
 
         public async Task Update(Supplier supplier)
@@ -45,7 +49,16 @@ namespace Domain.Services
 
         public async Task<Supplier?> GetById(int id)
         {
-            var suppliers = (await repositoryManager.Supplier.FindByConditionAsync(x => x.Id == id && x.IsActive, c => c.Deposits)).FirstOrDefault();
+            var suppliers = (await repositoryManager.Supplier.FindByConditionAsync(x => x.Id == id && x.IsActive)).FirstOrDefault();
+            return suppliers;
+        }
+
+        public async Task<List<Supplier>> GetSuppliersAsync(SupplierParameters supplierParameters)
+        {
+            var suppliers = await repositoryManager.Supplier.FindByCondition(x => x.IsActive)
+                .Skip(supplierParameters.Skip)
+                .Take(supplierParameters.PageSize)
+                .ToListAsync();
             return suppliers;
         }
     }

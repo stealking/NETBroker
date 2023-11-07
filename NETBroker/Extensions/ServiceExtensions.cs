@@ -1,4 +1,6 @@
-﻿using Core.Entities;
+﻿using AspNetCoreRateLimit;
+using Core.ActionFilters;
+using Core.Entities;
 using Core.Repositories;
 using Core.Services;
 using Core.Settings;
@@ -37,8 +39,11 @@ namespace NETBroker.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 
-        public static void ConfigureServiceManager(this IServiceCollection services) =>
+        public static void ConfigureServiceManager(this IServiceCollection services)
+        {
             services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<ValidationFilterAttribute>();
+        }
 
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerManager, LoggerManager>();
@@ -120,6 +125,27 @@ namespace NETBroker.Extensions
                     }
                 });
             });
+        }
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            var rateLimitRules = new List<RateLimitRule>
+            {
+                new RateLimitRule
+                {
+                    Endpoint = "*",
+                    Limit = 3,
+                    Period = "2m"
+                }
+            };
+            services.Configure<IpRateLimitOptions>(opt =>
+            {
+                opt.GeneralRules = rateLimitRules;
+            });
+            services.AddSingleton<IRateLimitCounterStore,MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
         }
     }
 }

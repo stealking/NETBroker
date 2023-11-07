@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Core.Models.Profiles;
 using Core.Services;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -29,6 +30,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerManager>();
@@ -62,6 +66,7 @@ app.UseSwaggerUI(s =>
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "NETBroker v1");
 });
 
+app.UseIpRateLimiting();
 // Seed the default user
 DataSeeder.SeedDefaultUserAsync(app.Services).Wait();
 

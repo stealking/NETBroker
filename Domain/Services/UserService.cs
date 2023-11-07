@@ -1,9 +1,11 @@
 ﻿using Core.Entities;
-using Core.Extensions;
+using Core.Models.Requests;
 using Core.Models.Requests.Users;
 using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Domain.Services
 {
@@ -39,7 +41,7 @@ namespace Domain.Services
 
         public async Task<List<UserProfile>> GetAll()
         {
-            var users = (await repositoryManager.User.FindByConditionAsync(x => x.IsActive)).OfType<UserProfile>().ToList();
+            var users = await repositoryManager.User.FindByCondition(x => x.IsActive).ToListAsync();
             return users;
         }
 
@@ -62,6 +64,24 @@ namespace Domain.Services
         {
             await repositoryManager.User.UpdateAsync(user);
             await repositoryManager.SaveAsync();
+        }
+
+        public async Task<bool> ChangeUserPassword(ChangeUserPasswordRequest request)
+        {
+            var user = await userManager.FindByIdAsync(request.UserId.ToString());
+            if (user == null) return false;
+
+            var result = await userManager.ChangePasswordAsync(user, request.OldPassword ?? "", request.NewPassword ?? "");
+            return result.Succeeded;
+        }
+
+        public async Task<List<UserProfile>> GetUsersAsync(UserParameters userParameters)
+        {
+            var users = await repositoryManager.User.FindByCondition(x => x.IsActive)
+                .Skip(userParameters.Skip)
+                .Take(userParameters.PageSize)
+                .ToListAsync();
+            return users;
         }
     }
 }
