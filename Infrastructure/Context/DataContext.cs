@@ -40,6 +40,14 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new QualificationConfiguration());
             modelBuilder.ApplyConfiguration(new ExpirationQualificationConfiguration());
             modelBuilder.ApplyConfiguration(new AnnualUssageQualificationConfiguration());
+
+            modelBuilder.Entity<Supplier>().Navigation(x => x.CreatorInfo).AutoInclude();
+            //modelBuilder.Entity<UserProfile>().Navigation(x => x.CloserContracts).AutoInclude();
+            //modelBuilder.Entity<Customer>().Navigation(x => x.Contracts).AutoInclude();
+            //modelBuilder.Entity<Contact>().Navigation(x => x.Contracts).AutoInclude();
+            //modelBuilder.Entity<Contract>().Navigation(x => x.ContractItems).AutoInclude();
+            //modelBuilder.Entity<Supplier>().Navigation(x => x.Contracts).AutoInclude();
+            //modelBuilder.Entity<Supplier>().Navigation(x => x.Deposits).AutoInclude();
         }
 
         public DbSet<Supplier> Suppliers { get; set; }

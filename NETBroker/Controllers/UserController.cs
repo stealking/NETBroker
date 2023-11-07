@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.ActionFilters;
 using Core.Entities;
 using Core.Models.Requests.Users;
 using Core.Models.Response.Users;
@@ -23,9 +24,9 @@ namespace NETBroker.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] UserParameters userParameters)
         {
-            var user = await serviceManager.UserService.GetAll();
+            var user = await serviceManager.UserService.GetUsersAsync(userParameters);
             return CreateSuccessResult(mapper.Map<List<UserProfile>, List<UserResponse>>(user));
         }
 
@@ -36,7 +37,7 @@ namespace NETBroker.Controllers
             var user = await serviceManager.UserService.GetById(id);
             if (user == null)
             {
-                return CreateFailResult("User not found.");
+                return CreateFailResult("User not found.", StatusCodes.Status404NotFound);
             }
 
             return CreateSuccessResult(mapper.Map<UserResponse>(user));
@@ -64,6 +65,7 @@ namespace NETBroker.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
         public async Task<IActionResult> Create([FromBody] UserRegisterRequest request)
         {
@@ -81,14 +83,10 @@ namespace NETBroker.Controllers
         }
 
         [HttpPut]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
         public async Task<IActionResult> Update([FromBody] UserUpdateRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return CreateModelStateErrors(ModelState);
-            }
-
             var user = await serviceManager.UserService.GetById(request.Id ?? 0);
             if (user == null)
             {
@@ -112,6 +110,19 @@ namespace NETBroker.Controllers
 
             await serviceManager.UserService.Delete(id);
             return CreateSuccess();
+        }
+
+        [HttpPut]
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CreateModelStateErrors(ModelState);
+            }
+
+            var result = await serviceManager.UserService.ChangeUserPassword(request);
+            return result ? CreateSuccess() : CreateFailResult("Change password failed!");
         }
     }
 }

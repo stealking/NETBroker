@@ -29,6 +29,12 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> FindAllAsync() => await DataContext.Set<T>().ToListAsync();
 
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        {
+            var query = DataContext.Set<T>().Where(expression);
+            return query;
+        }
+
         public async Task<IEnumerable<T>> FindByConditionAsync(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
             var query = DataContext.Set<T>().Where(expression);
