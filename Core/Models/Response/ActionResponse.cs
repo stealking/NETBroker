@@ -6,17 +6,18 @@ namespace Core.Models.Response
     {
         public bool Success { get; set; }
         public string? Message { get; set; }
-        public int? ErrorCode { get; set; }
+        public int? StatusCode { get; set; }
         public ActionResponse(bool success, string message, int? errorCode)
         {
             this.Success = success;
             this.Message = message;
-            this.ErrorCode = errorCode;
+            this.StatusCode = errorCode;
         }
 
         public ActionResponse()
         {
             this.Success = true;
+            this.StatusCode = 200;
         }
     }
 
@@ -24,7 +25,7 @@ namespace Core.Models.Response
     {
         public T? Result { get; set; }
 
-        public ActionResponse() : base(true, string.Empty, null)
+        public ActionResponse() : base(true, string.Empty, 200)
         {
         }
 

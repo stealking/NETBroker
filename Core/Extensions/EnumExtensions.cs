@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Attributes;
+using Core.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Core.Extensions
@@ -54,6 +56,15 @@ namespace Core.Extensions
             }
 
             return default(T);
+        }
+
+        public static ProductType? GetProductType(this EnergyUnitType enumValue)
+        {
+            return enumValue.GetType()
+                            .GetMember(enumValue.ToString())
+                            .First()
+                            .GetCustomAttribute<EnergyUnitTypeAttribute>()?
+                            .ProductType ?? ProductType.None;
         }
     }
 }

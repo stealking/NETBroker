@@ -9,7 +9,7 @@ namespace Core.Entities
         {
         }
 
-        public Contract(int id, int supplierId, string? legalEntityName, int customerId, int contactId, int? closerId, int? fronterId, DateTime? soldDate, BillingChargeTypes billingChargeType, BillingTypes billingType, EnrollmentTypes enrollmentType, PricingTypes pricingType, int creator)
+        public Contract(int id, int supplierId, string? legalEntityName, int customerId, int contactId, int? closerId, int? fronterId, DateTime? soldDate, BillingChargeTypes billingChargeType, BillingTypes billingType, EnrollmentTypes enrollmentType, PricingTypes pricingType, int creator, Stage stage = Stage.Opportunity)
         {
             Id = id;
             SupplierId = supplierId;
@@ -23,6 +23,7 @@ namespace Core.Entities
             BillingType = billingType;
             EnrollmentType = enrollmentType;
             PricingType = pricingType;
+            Stage = stage;
             Creator = creator;
         }
 
@@ -63,6 +64,8 @@ namespace Core.Entities
         [Required(ErrorMessage = "CustomerId is required.")]
         public int CustomerId { get; set; }
         public Customer? Customer { get; set; }
+
+        public Stage Stage { get; set; } = Stage.Opportunity;
 
         public ICollection<ContractItem>? ContractItems { get; set; }
     }

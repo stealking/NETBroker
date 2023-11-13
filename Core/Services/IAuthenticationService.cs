@@ -8,7 +8,7 @@ namespace Core.Services
     public interface IAuthenticationService
     {
         Task<UserProfile?> Autheticate(UserLoginRequest request);
-        Task<IdentityResult> RegisterUser(UserRegisterRequest user);
+        Task<IdentityResult> RegisterUser(UserRequest user);
         Task<string> CreateToken(UserProfile user);
         ClaimsPrincipal? ValidateToken(string token);
     }

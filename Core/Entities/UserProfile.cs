@@ -40,7 +40,6 @@ namespace Core.Entities
 
         public ICollection<Contract>? CloserContracts { get; set; }
         public ICollection<Contract>? FronterContracts { get; set; }
-        public Supplier? SupplierCreator { get; set; }
 
         [NotMapped]
         public ICollection<string>? Roles { get; set; }

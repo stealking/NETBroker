@@ -24,7 +24,7 @@ namespace Domain.Services
             this.mapper = mapper;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserRegisterRequest userRegisterRequest)
+        public async Task<IdentityResult> RegisterUser(UserRequest userRegisterRequest)
         {
             var user = mapper.Map<UserProfile>(userRegisterRequest);
             var result = await userManager.CreateAsync(user, userRegisterRequest.Password);

@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Models.Requests.Contracts;
 using Core.Models.Requests.Suppliers;
 using Core.Models.Requests.Users;
+using Core.Models.Response.ContractItems;
+using Core.Models.Response.Contracts;
 using Core.Models.Response.Suppliers;
 using Core.Models.Response.Users;
 
@@ -13,11 +16,30 @@ namespace Core.Models.Profiles
         {
             CreateMap<UserProfile, UserResponse>();
             CreateMap<UserResponse, UserProfile>();
-            CreateMap<UserRegisterRequest, UserProfile>();
+            CreateMap<UserRequest, UserProfile>();
             CreateMap<UserUpdateRequest, UserProfile>();
 
             CreateMap<Supplier, SupplierResponse>();
-            CreateMap<SupplierRegisterRequest, Supplier>();
+            CreateMap<SupplierRequest, Supplier>();
+            CreateMap<SupplierUpdateRequest, Supplier>();
+
+            CreateMap<ContractRequest, Contract>();
+            CreateMap<ContractUpdateRequest, Contract>();
+            CreateMap<Contract, ContractResponse>()
+                .ForMember(p => p.BillingChargeType, opt => opt.MapFrom(x => x.BillingChargeType.ToString()))
+                .ForMember(p => p.BillingType, opt => opt.MapFrom(x => x.BillingType.ToString()))
+                .ForMember(p => p.EnrollmentType, opt => opt.MapFrom(x => x.EnrollmentType.ToString()))
+                .ForMember(p => p.PricingType, opt => opt.MapFrom(x => x.PricingType.ToString()))
+                .ForMember(p => p.SupplierName, opt => opt.MapFrom(x => x.Supplier.Name))
+                .ForMember(p => p.ContactName, opt => opt.MapFrom(x => x.Contact.Name))
+                .ForMember(p => p.CloserName, opt => opt.MapFrom(x => x.Closer.FullName))
+                .ForMember(p => p.FronterName, opt => opt.MapFrom(x => x.Fronter.FullName))
+                .ForMember(p => p.FronterName, opt => opt.MapFrom(x => x.Fronter.FullName))
+                .ForMember(p => p.CustomerName, opt => opt.MapFrom(x => x.Customer.Name))
+                .ReverseMap();
+
+            CreateMap<ContractItem, ContractItemResponse>();
+            CreateMap<ContractItemResponse, ContractItem>();
         }
     }
 }

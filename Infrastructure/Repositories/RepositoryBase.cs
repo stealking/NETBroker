@@ -1,5 +1,4 @@
-﻿using Core.Repositories;
-using Infrastructure.Context;
+﻿using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -29,9 +28,15 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> FindAllAsync() => await DataContext.Set<T>().ToListAsync();
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
             var query = DataContext.Set<T>().Where(expression);
+            if (includes != null)
+            {
+                query = includes.Aggregate(query,
+                          (current, include) => current.Include(include));
+            }
+           
             return query;
         }
 
@@ -43,7 +48,14 @@ namespace Infrastructure.Repositories
                 query = includes.Aggregate(query,
                           (current, include) => current.Include(include));
             }
+         
             return await query.ToListAsync();
+        }
+
+        public async Task<T?> FindById(object id)
+        {
+            var result = await DataContext.Set<T>().FindAsync(id);
+            return result;
         }
 
         public Task UpdateAsync(T entity)

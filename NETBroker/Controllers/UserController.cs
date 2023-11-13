@@ -26,8 +26,8 @@ namespace NETBroker.Controllers
         [Route("")]
         public async Task<IActionResult> GetAll([FromQuery] UserParameters userParameters)
         {
-            var user = await serviceManager.UserService.GetUsersAsync(userParameters);
-            return CreateSuccessResult(mapper.Map<List<UserProfile>, List<UserResponse>>(user));
+            var users = await serviceManager.UserService.GetAll(userParameters);
+            return CreateSuccessResult(users);
         }
 
         [HttpGet]
@@ -67,7 +67,7 @@ namespace NETBroker.Controllers
         [AllowAnonymous]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
-        public async Task<IActionResult> Create([FromBody] UserRegisterRequest request)
+        public async Task<IActionResult> Create([FromBody] UserRequest request)
         {
             var result = await serviceManager.AuthenticationService.RegisterUser(request);
             if (!result.Succeeded)
@@ -85,17 +85,10 @@ namespace NETBroker.Controllers
         [HttpPut]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
-        public async Task<IActionResult> Update([FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> Update([FromBody] UserRequest request)
         {
-            var user = await serviceManager.UserService.GetById(request.Id ?? 0);
-            if (user == null)
-            {
-                return CreateFailResult("User not found.");
-            }
-
-            mapper.Map(request, user);
-            await serviceManager.UserService.Update(user);
-            return CreateSuccessResult(mapper.Map<UserResponse>(user));
+            await serviceManager.UserService.Update(request);
+            return CreateSuccess();
         }
 
         [HttpDelete]

@@ -20,10 +20,6 @@ namespace Infrastructure.Context.Configurations
                 .HasPrincipalKey(p => p.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(p => p.CreatorInfo)
-             .WithOne(p => p.SupplierCreator)
-             .HasForeignKey<Supplier>(p => p.Creator);
-
             builder.HasData(
                 new Supplier(1, "IGS", 1)
             );

@@ -1,65 +1,75 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Core.Entities;
 using Core.Models.Requests;
 using Core.Models.Requests.Suppliers;
+using Core.Models.Response.Suppliers;
 using Core.Repositories;
 using Core.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Domain.Services
 {
     public sealed class SupplierService : ISupplierService
     {
         private IRepositoryManager repositoryManager;
+        private IMapper mapper;
 
-        public SupplierService(IRepositoryManager repositoryManager)
+        public SupplierService(IRepositoryManager repositoryManager, IMapper mapper)
         {
             this.repositoryManager = repositoryManager;
-        }
-        public async Task<Supplier> Create(Supplier supplier)
-        {
-            var result = await repositoryManager.Supplier.CreateAsync(supplier);
-            await repositoryManager.SaveAsync();
-            return result;
+            this.mapper = mapper;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<SupplierResponse?> GetById(object id)
         {
-            var supplier = (await repositoryManager.Supplier.FindByConditionAsync(x => x.Id == id)).FirstOrDefault();
-            if (supplier != null)
-            {
-                supplier.IsActive = false;
-                await Update(supplier);
-                return true;
-            }
-            return false;
+            var supplier = await repositoryManager.Supplier.FindByCondition(x => x.Id.Equals(id) && x.IsActive).FirstOrDefaultAsync();
+            return mapper.Map<SupplierResponse>(supplier);
         }
 
-        public async Task<List<Supplier>> GetAll()
+        public async Task<List<SupplierResponse>> GetAll(SupplierParameters parameter)
         {
-            var suppliers = await repositoryManager.Supplier.FindByCondition(x => x.IsActive).ToListAsync();
+            var suppliers = await repositoryManager.Supplier.FindByCondition(x => x.IsActive)
+              .Skip(parameter.Skip)
+              .Take(parameter.PageSize)
+                .ProjectTo<SupplierResponse>(mapper.ConfigurationProvider)
+              .ToListAsync();
             return suppliers;
         }
 
-        public async Task Update(Supplier supplier)
+        public async Task<bool> Create(IRequest request)
         {
+            var supplierRequest = (SupplierRequest)request;
+            var supplier = mapper.Map<Supplier>(supplierRequest);
+            await repositoryManager.Supplier.CreateAsync(supplier);
+            await repositoryManager.SaveAsync();
+            return true;
+        }
+
+        public async Task Update(IRequest request)
+        {
+            var updateRequest = (SupplierUpdateRequest)request;
+            var supplier = await repositoryManager.Supplier.FindById(updateRequest.Id);
+            if (supplier == null)
+            {
+                throw new ArgumentNullException(nameof(supplier));
+            }
+
+            mapper.Map(request, supplier);
             await repositoryManager.Supplier.UpdateAsync(supplier);
             await repositoryManager.SaveAsync();
         }
 
-        public async Task<Supplier?> GetById(int id)
+        public async Task<bool> Delete(int id)
         {
-            var suppliers = (await repositoryManager.Supplier.FindByConditionAsync(x => x.Id == id && x.IsActive)).FirstOrDefault();
-            return suppliers;
-        }
+            var supplier = await repositoryManager.Supplier.FindById(id);
+            if (supplier == null)
+                throw new ArgumentNullException(nameof(supplier));
 
-        public async Task<List<Supplier>> GetSuppliersAsync(SupplierParameters supplierParameters)
-        {
-            var suppliers = await repositoryManager.Supplier.FindByCondition(x => x.IsActive)
-                .Skip(supplierParameters.Skip)
-                .Take(supplierParameters.PageSize)
-                .ToListAsync();
-            return suppliers;
+            supplier.IsActive = false;
+            await repositoryManager.Supplier.UpdateAsync(supplier);
+            await repositoryManager.SaveAsync();
+            return true;
         }
     }
 }

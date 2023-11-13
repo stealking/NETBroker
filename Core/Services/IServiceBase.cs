@@ -1,12 +1,11 @@
-﻿using Core.Models.Requests;
-
-namespace Core.Services
+﻿namespace Core.Services
 {
-    public interface IServiceBase<T>
+    public interface IServiceBase<T, T1, T2>
     {
-        Task<List<T>> GetAll();
-        Task<T> Create(T entity);
-        Task Update(T entity);
+        Task<List<T>> GetAll(T2 parameter);
+        Task<T?> GetById(object id);
+        Task<bool> Create(T1 entity);
+        Task Update(T1 entity);
         Task<bool> Delete(int id);
     }
 }

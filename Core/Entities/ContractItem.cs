@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Enums;
+using Core.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
@@ -23,6 +24,12 @@ namespace Core.Entities
             Rate = rate;
             Adder = adder;
             Creator = creator;
+
+            var productTypeOfEnergy = energyUnitType.GetProductType();
+            if (productType != productTypeOfEnergy)
+            {
+                throw new ArgumentException($"{energyUnitType} does not belong product type: {productType}");
+            }
         }   
 
         [Key]

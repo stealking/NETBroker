@@ -1,13 +1,10 @@
-﻿using Core.Entities;
-using Core.Models.Requests.Users;
+﻿using Core.Models.Requests.Users;
+using Core.Models.Response.Users;
 
 namespace Core.Services
 {
-    public interface IUserService : IServiceBase<UserProfile>
+    public interface IUserService : IServiceBase<UserResponse, UserRequest, UserParameters>
     {
-        Task<List<UserProfile>> GetUsersAsync(UserParameters userParameters);
-        Task<UserProfile?> GetByUserName(string? userName);
-        Task<UserProfile?> GetById(int id);
         Task<bool> ChangeUserPassword(ChangeUserPasswordRequest request);
     }
 }

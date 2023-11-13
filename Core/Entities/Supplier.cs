@@ -13,7 +13,7 @@ namespace Core.Entities
 
         private Supplier()
         {
-            
+
         }
 
         public Supplier(int id, string? name, int creator)
@@ -28,7 +28,7 @@ namespace Core.Entities
             Id = id;
             Name = name;
             Creator = creator;
-            DateCreated  = dateCreated;
+            DateCreated = dateCreated;
             IsActive = isActive;
         }
 

@@ -41,7 +41,6 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new ExpirationQualificationConfiguration());
             modelBuilder.ApplyConfiguration(new AnnualUssageQualificationConfiguration());
 
-            modelBuilder.Entity<Supplier>().Navigation(x => x.CreatorInfo).AutoInclude();
             //modelBuilder.Entity<UserProfile>().Navigation(x => x.CloserContracts).AutoInclude();
             //modelBuilder.Entity<Customer>().Navigation(x => x.Contracts).AutoInclude();
             //modelBuilder.Entity<Contact>().Navigation(x => x.Contracts).AutoInclude();

@@ -134,8 +134,8 @@ namespace NETBroker.Extensions
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit = 3,
-                    Period = "2m"
+                    Limit = 5,
+                    Period = "1m"
                 }
             };
             services.Configure<IpRateLimitOptions>(opt =>

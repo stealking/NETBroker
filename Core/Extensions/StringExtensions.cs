@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Core.Extensions
 {
@@ -65,6 +67,15 @@ namespace Core.Extensions
                 }
                 return true; // Passwords match
             }
+        }
+
+        public static int ConvertToIntOrDefault(this string name, int defaultValue)
+        {
+            int result = defaultValue;
+
+            var resultConvert = int.TryParse(name, NumberStyles.Number, new CultureInfo("en-US"), out result);
+
+            return resultConvert ? result : defaultValue;
         }
     }
 }

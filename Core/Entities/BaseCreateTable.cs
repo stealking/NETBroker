@@ -12,7 +12,5 @@ namespace Core.Entities
 
         [Required(ErrorMessage = "IsActive is required field.")]
         public bool IsActive { get; set; } = true;
-
-        public UserProfile? CreatorInfo { get; set; }
     }
 }

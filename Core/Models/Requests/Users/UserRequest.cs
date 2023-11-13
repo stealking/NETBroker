@@ -2,8 +2,10 @@
 
 namespace Core.Models.Requests.Users
 {
-    public class UserRegisterRequest
+    public class UserRequest
     {
+        public int Id { get; set; }
+
         [Required]
         public string? UserName { get; init; }
 
