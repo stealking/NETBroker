@@ -27,18 +27,18 @@ namespace Domain.Services
         public async Task<IdentityResult> RegisterUser(UserRequest userRegisterRequest)
         {
             var user = mapper.Map<UserProfile>(userRegisterRequest);
-            var result = await userManager.CreateAsync(user, userRegisterRequest.Password);
+            var result = await userManager.CreateAsync(user, userRegisterRequest.Password ?? "");
             if (result.Succeeded)
             {
-                await userManager.AddToRolesAsync(user, userRegisterRequest.Roles);
+                await userManager.AddToRolesAsync(user, userRegisterRequest.Roles ?? new List<string>());
             }
             return result;
         }
 
         public async Task<UserProfile?> Autheticate(UserLoginRequest request)
         {
-            var user = await userManager.FindByNameAsync(request.UserName);
-            var result = user != null && await userManager.CheckPasswordAsync(user, request.Password);
+            var user = await userManager.FindByNameAsync(request.UserName ?? "");
+            var result = user != null && await userManager.CheckPasswordAsync(user, request.Password ?? "");
             return result ? user : null;
         }
 
@@ -52,7 +52,7 @@ namespace Domain.Services
 
         private SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes(settings?.Auth?.SecretKey);
+            var key = Encoding.UTF8.GetBytes(settings?.Auth?.SecretKey ?? "");
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
@@ -61,7 +61,8 @@ namespace Domain.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.UserName ?? ""),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             var roles = await userManager.GetRolesAsync(user);
             foreach (var role in roles)

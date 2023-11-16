@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Repositories;
 using Core.Services;
 using Core.Settings;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Services
@@ -15,14 +16,16 @@ namespace Domain.Services
         private readonly Lazy<IContractService> _contractService;
         private readonly Lazy<IContractItemService> _contractItemService;
         private readonly Lazy<IContactService> _contactService;
+        private readonly Lazy<IFileService> _fileService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, UserManager<UserProfile> userManager, AppSettings appSettings, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, UserManager<UserProfile> userManager, AppSettings appSettings, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _userService = new Lazy<IUserService>(() => new UserService(repositoryManager, userManager, mapper));
+            _fileService = new Lazy<IFileService>(() => new FileService(repositoryManager));
             _supplierService = new Lazy<ISupplierService>(() => new SupplierService(repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, appSettings, mapper));
-            _contractService = new Lazy<IContractService>(() => new ContractService(repositoryManager, mapper));
-            _contractItemService = new Lazy<IContractItemService>(() => new ContractItemService(repositoryManager, mapper));
+            _contractService = new Lazy<IContractService>(() => new ContractService(repositoryManager, mapper, httpContextAccessor));
+            _contractItemService = new Lazy<IContractItemService>(() => new ContractItemService(repositoryManager, mapper, _fileService.Value));
             _contactService = new Lazy<IContactService>(() => new ContactService(repositoryManager, mapper));
         }
         public IUserService UserService => _userService.Value;
@@ -31,5 +34,6 @@ namespace Domain.Services
         public IContractService ContractService => _contractService.Value;
         public IContractItemService ContractItemService => _contractItemService.Value;
         public IContactService ContactService => _contactService.Value;
+        public IFileService FileService => _fileService.Value;
     }
 }

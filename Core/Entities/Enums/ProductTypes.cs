@@ -1,6 +1,6 @@
 ﻿namespace Core.Entities.Enums
 {
-    public enum ProductType
+    public enum ProductTypes
     {
         None = 0,
         Elec = 1,

@@ -1,13 +1,11 @@
 ﻿using Core.Entities.Enums;
+using Core.Models.Requests.ContractItems;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Requests.Contracts
 {
     public class ContractRequest : IRequest
     {
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         public string? LegalEntityName { get; set; }
 
@@ -37,5 +35,7 @@ namespace Core.Models.Requests.Contracts
 
         [Required]
         public int CustomerId { get; set; }
+        public Stage Stage { get; set; } = Stage.Opportunity;
+        public ICollection<ContractItemRequest> ContractItemRequests { get; set; } = new List<ContractItemRequest>();
     }
 }

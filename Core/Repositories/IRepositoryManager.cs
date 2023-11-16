@@ -7,6 +7,7 @@
         IContractRepository Contract { get; }
         IContractItemRepository ContractItem { get; }
         IContactRepository Contact { get; }
+        IContractItemAttachmentRepository ContractItemAttachment { get; }
         Task SaveAsync();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Enums;
+using Core.Models.Requests.ContractItems;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Requests.Contracts
@@ -24,5 +25,7 @@ namespace Core.Models.Requests.Contracts
 
         [Required]
         public Stage Stage { get; set; }
+
+        public ICollection<ContractItemRequest> ContractItemRequests { get; set; } = new List<ContractItemRequest>();
     }
 }

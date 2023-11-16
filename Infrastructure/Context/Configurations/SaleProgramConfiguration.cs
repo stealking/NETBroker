@@ -22,8 +22,8 @@ namespace Infrastructure.Context.Configurations
                 .HasPrincipalKey(p => p.Id);
 
             builder.HasData(
-                new SaleProgram(1, EnergyUnitType.KWH, "50% contract upfront then residual", "PercentageContractUpfront + PercentageContractResidual"),
-                new SaleProgram(2, EnergyUnitType.THM, "Forecast annual margin divided by four", "QuarterlyUpfront")
+                new SaleProgram(1, EnergyUnitTypes.KWH, "50% contract upfront then residual", "PercentageContractUpfront + PercentageContractResidual"),
+                new SaleProgram(2, EnergyUnitTypes.THM, "Forecast annual margin divided by four", "QuarterlyUpfront")
             );
         }
     }

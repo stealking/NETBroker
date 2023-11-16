@@ -23,10 +23,10 @@ namespace NETBroker.Migrations
                     var admin = await userManager.FindByNameAsync("admin");
                     if (string.IsNullOrEmpty(admin?.PasswordHash))
                     {
-                        var result = await userManager.AddPasswordAsync(admin, "admin123!");
+                        var result = await userManager.AddPasswordAsync(admin ?? new UserProfile(), "admin123!");
                         if (result.Succeeded)
                         {
-                            await userManager.AddToRoleAsync(admin, UserTypes.Admin.ToString());
+                            await userManager.AddToRoleAsync(admin ?? new UserProfile(), UserTypes.Admin.ToString());
                         }
                     }
                 }

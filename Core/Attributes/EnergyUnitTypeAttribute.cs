@@ -4,8 +4,8 @@ namespace Core.Attributes
 {
     public class EnergyUnitTypeAttribute : Attribute
     {
-        public ProductType ProductType { get; private set; }
-        public EnergyUnitTypeAttribute(ProductType productType)
+        public ProductTypes ProductType { get; private set; }
+        public EnergyUnitTypeAttribute(ProductTypes productType)
         {
             ProductType = productType;
         }

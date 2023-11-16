@@ -33,6 +33,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
+builder.WebHost.ConfigureKestrel((context, opt) =>
+{
+
+    opt.Limits.MaxRequestBodySize = 2147483648;
+});
 var app = builder.Build();
 
 var logger = app.Services.GetRequiredService<ILoggerManager>();

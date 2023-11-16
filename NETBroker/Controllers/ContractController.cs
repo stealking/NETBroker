@@ -26,7 +26,7 @@ namespace NETBroker.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var contract = await serviceManager.ContractService.GetById(id);
+            var contract = await serviceManager.ContractService.GetDetail(id);
             return CreateSuccessResult(contract);
         }
 

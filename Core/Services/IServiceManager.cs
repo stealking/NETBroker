@@ -8,5 +8,6 @@
         IContractService ContractService { get; }
         IContractItemService ContractItemService { get; }
         IContactService ContactService { get; }
+        IFileService FileService { get; }
     }
 }

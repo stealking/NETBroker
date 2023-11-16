@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Models.Requests.ContractItems;
 using Core.Models.Requests.Contracts;
 using Core.Models.Requests.Suppliers;
 using Core.Models.Requests.Users;
@@ -38,8 +39,24 @@ namespace Core.Models.Profiles
                 .ForMember(p => p.CustomerName, opt => opt.MapFrom(x => x.Customer.Name))
                 .ReverseMap();
 
+            CreateMap<Contract, ContractDetailResponse>()
+              .ForMember(p => p.BillingChargeType, opt => opt.MapFrom(x => x.BillingChargeType.ToString()))
+              .ForMember(p => p.BillingType, opt => opt.MapFrom(x => x.BillingType.ToString()))
+              .ForMember(p => p.EnrollmentType, opt => opt.MapFrom(x => x.EnrollmentType.ToString()))
+              .ForMember(p => p.PricingType, opt => opt.MapFrom(x => x.PricingType.ToString()))
+              .ForMember(p => p.SupplierName, opt => opt.MapFrom(x => x.Supplier.Name))
+              .ForMember(p => p.ContactName, opt => opt.MapFrom(x => x.Contact.Name))
+              .ForMember(p => p.CloserName, opt => opt.MapFrom(x => x.Closer.FullName))
+              .ForMember(p => p.FronterName, opt => opt.MapFrom(x => x.Fronter.FullName))
+              .ForMember(p => p.FronterName, opt => opt.MapFrom(x => x.Fronter.FullName))
+              .ForMember(p => p.CustomerName, opt => opt.MapFrom(x => x.Customer.Name))
+              .ForMember(p => p.ContractItems, opt => opt.MapFrom(x => x.ContractItems.Where(x => x.IsActive)))
+              .ReverseMap();
+
             CreateMap<ContractItem, ContractItemResponse>();
-            CreateMap<ContractItemResponse, ContractItem>();
+            CreateMap<ContractItemRequest, ContractItem>();
+
+            CreateMap<ContractItemAttachmentRequest,  ContractItemAttachment>();
         }
     }
 }

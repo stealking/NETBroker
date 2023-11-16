@@ -11,7 +11,7 @@ namespace Core.Entities
             
         }
 
-        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductType productType, EnergyUnitType energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator)
+        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator)
         {
             Id = id;
             ContractId = contractId;
@@ -45,13 +45,17 @@ namespace Core.Entities
 
         [Required(ErrorMessage = "Start Date is required field.")]
         public DateTime StartDate { get; set; }
+
         public DateTime? EndDate => StartDate.AddMonths(TermMonth);
 
         [Required(ErrorMessage = "TermMonth is required field.")]
         [Range(1, int.MaxValue, ErrorMessage = "The minimum value of TermMonth is 1")]
         public int TermMonth { get; set; }
-        public ProductType ProductType { get; set; }
-        public EnergyUnitType EnergyUnitType { get; set; }
+
+        public ProductTypes ProductType { get; set; }
+
+        public EnergyUnitTypes EnergyUnitType { get; set; }
+
         public int? AnnualUsage { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N5}", ApplyFormatInEditMode = true)]
@@ -62,5 +66,6 @@ namespace Core.Entities
         [RegularExpression(@"^\d{1,5}(\.\d{1,5})?$", ErrorMessage = "Invalid Adder format.")]
         public decimal? Adder { get; set; }
 
+        public ICollection<ContractItemAttachment> Attachments { get; set; } = new List<ContractItemAttachment>();
     }
 }

@@ -58,13 +58,13 @@ namespace Core.Extensions
             return default(T);
         }
 
-        public static ProductType? GetProductType(this EnergyUnitType enumValue)
+        public static ProductTypes? GetProductType(this EnergyUnitTypes enumValue)
         {
             return enumValue.GetType()
                             .GetMember(enumValue.ToString())
                             .First()
                             .GetCustomAttribute<EnergyUnitTypeAttribute>()?
-                            .ProductType ?? ProductType.None;
+                            .ProductType ?? ProductTypes.None;
         }
     }
 }

@@ -4,7 +4,6 @@ namespace Core.Entities
 {
     public class BaseCreateTable
     {
-        [Required(ErrorMessage = "Creator is required field.")]
         public int? Creator { get; set; }
 
         [Required(ErrorMessage = "DateCreated is required field.")]

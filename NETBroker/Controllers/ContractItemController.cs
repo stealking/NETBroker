@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Core.ActionFilters;
+﻿using Core.ActionFilters;
 using Core.Models.Requests.ContractItems;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NETBroker.Controllers
@@ -34,7 +34,8 @@ namespace NETBroker.Controllers
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
-        public async Task<IActionResult> Create([FromBody] ContractItemRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ContractItemRequest request)
         {
             var result = await serviceManager.ContractItemService.Create(request);
             return result ? CreateSuccess() : CreateFailResult("Create failed!");
@@ -43,7 +44,8 @@ namespace NETBroker.Controllers
         [HttpPut]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         [Route("")]
-        public async Task<IActionResult> Update([FromBody] ContractItemRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update([FromForm] ContractItemRequest request)
         {
             await serviceManager.ContractItemService.Update(request);
             return CreateSuccess();

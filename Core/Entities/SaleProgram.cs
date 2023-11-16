@@ -8,7 +8,7 @@ namespace Core.Entities
         {
         }
 
-        public SaleProgram(int id, EnergyUnitType energyUnitType, string? description, string? salesProgramType)
+        public SaleProgram(int id, EnergyUnitTypes energyUnitType, string? description, string? salesProgramType)
         {
             Id = id;
             EnergyUnitType = energyUnitType;
@@ -17,7 +17,7 @@ namespace Core.Entities
         }
 
         public int Id { get; init; }
-        public EnergyUnitType EnergyUnitType { get; set; }
+        public EnergyUnitTypes EnergyUnitType { get; set; }
         public string? Description { get; set; }
         public string? SalesProgramType { get; set; }
         public ICollection<CommisionType>? CommisionTypes { get; set; }

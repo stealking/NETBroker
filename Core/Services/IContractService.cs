@@ -6,5 +6,6 @@ namespace Core.Services
 {
     public interface IContractService : IServiceBase<ContractResponse, IRequest, ContractParameters>
     {
+        Task<ContractDetailResponse?> GetDetail(int id);
     }
 }

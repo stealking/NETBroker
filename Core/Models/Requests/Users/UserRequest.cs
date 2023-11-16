@@ -10,6 +10,7 @@ namespace Core.Models.Requests.Users
         public string? UserName { get; init; }
 
         [Required]
+        [MinLength(6)]
         public string? Password { get; init; }
 
         [Required]

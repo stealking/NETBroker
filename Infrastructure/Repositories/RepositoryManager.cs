@@ -11,6 +11,7 @@ namespace Infrastructure.Repositories
         private readonly Lazy<IContractRepository> contractRepository;
         private readonly Lazy<IContractItemRepository> contractItemRepository;
         private readonly Lazy<IContactRepository> contactRepository;
+        private readonly Lazy<IContractItemAttachmentRepository> contractItemAttachmentRepository;
         public RepositoryManager(DataContext dataContext)
         {
             this.dataContext = dataContext;
@@ -19,6 +20,7 @@ namespace Infrastructure.Repositories
             contractRepository = new Lazy<IContractRepository>(() => new ContractRepository(dataContext));
             contractItemRepository = new Lazy<IContractItemRepository>(() => new ContractItemRepository(dataContext));
             contactRepository = new Lazy<IContactRepository>(() => new ContactRepository(dataContext));
+            contractItemAttachmentRepository = new Lazy<IContractItemAttachmentRepository>(() => new ContractItemAttachmentRepository(dataContext));
         }
 
         public IUserRepository User => userRepository.Value;
@@ -27,6 +29,7 @@ namespace Infrastructure.Repositories
         public IContractItemRepository ContractItem => contractItemRepository.Value;
         public IContactRepository Contact => contactRepository.Value;
 
+        public IContractItemAttachmentRepository ContractItemAttachment => contractItemAttachmentRepository.Value;
 
         public async Task SaveAsync() => await dataContext.SaveChangesAsync();
     }
