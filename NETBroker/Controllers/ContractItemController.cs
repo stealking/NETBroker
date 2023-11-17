@@ -1,7 +1,7 @@
 ﻿using Core.ActionFilters;
+using Core.Extensions;
 using Core.Models.Requests.ContractItems;
 using Core.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NETBroker.Controllers
@@ -57,6 +57,33 @@ namespace NETBroker.Controllers
         {
             await serviceManager.ContractItemService.Delete(id);
             return CreateSuccess();
+        }
+
+
+        [HttpGet]
+        [Route("download/{attachmentId}")]
+        public async Task<IActionResult> Download(int attachmentId)
+        {
+            var item = await serviceManager.ContractItemAttachmentService.Find(attachmentId);
+            if (item == null)
+                return CreateFailResult("File not exists!");
+
+            var filePath = CommonExtensions.GetFilePath(item?.FilePath ?? "");
+            var result = await serviceManager.FileService.DownloadFile(filePath);
+            return File(result.Item1, result.Item2, result.Item3);
+        }
+
+        [HttpGet]
+        [Route("download-all/{contractItemId}")]
+        public async Task<IActionResult> DownloadAll(int contractItemId)
+        {
+            var attachments = await serviceManager.ContractItemAttachmentService.FindAttachments(contractItemId);
+            var filesPath = attachments?.Select(s => s.FilePath).ToList();
+            if (filesPath?.Count() == 0)
+                return CreateFailResult($"Contract item id {contractItemId} has no attachments!");
+
+            var result = await serviceManager.FileService.DownloadZipFiles(filesPath ?? new List<string?>());
+            return File(result.Item1, result.Item2, result.Item3);
         }
     }
 }

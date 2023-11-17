@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Core.Entities
+﻿namespace Core.Entities
 {
     public class ContractItemAttachment
     {
@@ -12,11 +10,11 @@ namespace Core.Entities
         }
 
         public int Id { get; init; }
-        public string? FilePath { get; set; }
-        public string? FileName { get; set; }
-        public string? FileType { get; set; }
+        public string? FilePath { get; private set; }
+        public string? FileName { get; private set; }
+        public string? FileType { get; private set; }
 
-        public int? ContractItemId { get; set; }
-        public ContractItem? ContractItem { get; set; }
+        public int? ContractItemId { get; private set; }
+        public ContractItem? ContractItem { get; private set; }
     }
 }

@@ -3,6 +3,7 @@ using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using System.IO.Compression;
 
 namespace Domain.Services
 {
@@ -14,23 +15,68 @@ namespace Domain.Services
             this.repositoryManager = repositoryManager;
         }
 
-        public async Task<(byte[], string, string)> DownloadFileById(int id)
+        public async Task<(byte[], string, string)> DownloadFile(string filePath)
         {
-            var item = await repositoryManager.ContractItemAttachment.FindById(id);
-            if (item == null) 
-                throw new ArgumentNullException("File not exists!");
-
-            var filePath = CommonExtensions.GetFilePath(item?.FilePath ?? "");
-            if (!File.Exists(filePath)) 
+            var fullPath = CommonExtensions.GetFilePath(filePath);
+            if (!File.Exists(fullPath))
                 throw new ArgumentNullException("File not exists!");
 
             var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(filePath, out var contentType))
+            if (!provider.TryGetContentType(fullPath, out var contentType))
             {
                 contentType = "application/octet-stream";
             }
-            var readAllBytesAsync = await File.ReadAllBytesAsync(filePath);
-            return (readAllBytesAsync, contentType, Path.GetFileName(filePath));
+            var readAllBytesAsync = await File.ReadAllBytesAsync(fullPath);
+            return (readAllBytesAsync, contentType, Path.GetFileName(fullPath));
+        }
+
+        public async Task<(byte[], string, string)> DownloadZipFiles(List<string?> filesPath)
+        {
+            var archiveFileName = Path.Combine(CommonExtensions.GetStaticContentDirectory(), $"{Guid.NewGuid()}.zip");
+
+            try
+            {
+                if (filesPath.Count == 0)
+                    throw new ArgumentNullException("No file exist!");
+
+                bool fileExist = false;
+                using (var archive = ZipFile.Open(archiveFileName, ZipArchiveMode.Create))
+                {
+
+                    foreach (var filePath in filesPath)
+                    {
+                        var fullPath = CommonExtensions.GetFilePath(filePath ?? "");
+                        if (!File.Exists(fullPath))
+                            continue;
+
+                        fileExist = true;
+                        FileInfo fileInfo = new FileInfo(fullPath);
+                        archive.CreateEntryFromFile(fileInfo.FullName, fileInfo.Name);
+                    }
+                }
+
+                if (!fileExist)
+                    throw new ArgumentNullException("No file exist!");
+
+                var provider = new FileExtensionContentTypeProvider();
+                if (!provider.TryGetContentType(archiveFileName, out var contentType))
+                {
+                    contentType = "application/x-zip-compressed";
+                }
+                var readAllBytesAsync = await File.ReadAllBytesAsync(archiveFileName);
+                return (readAllBytesAsync, contentType, Path.GetFileName(archiveFileName));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                if (File.Exists(archiveFileName))
+                {
+                    File.Delete(archiveFileName);
+                }
+            }
         }
 
         public async Task<string> UploadFileAsync(IFormFile? file, string folderNmae)
@@ -49,7 +95,7 @@ namespace Domain.Services
                     {
                         await file.CopyToAsync(fileStream);
                     }
-                    return url;
+                    return Path.Combine(folderNmae, file.FileName);
                 }
                 else
                 {

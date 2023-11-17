@@ -10,7 +10,9 @@ namespace Core.Entities.Enums
         [Display(Name = ".png")]
         PNG,
         [Display(Name = ".jpeg")]
-        JPEG,
+        JPEG, 
+        [Display(Name = ".jpg")]
+        JPG,
         [Display(Name = ".docx")]
         DOCX
     }

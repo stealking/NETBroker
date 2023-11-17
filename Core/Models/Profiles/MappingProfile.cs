@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Models.Requests.ContractItemAttachments;
 using Core.Models.Requests.ContractItems;
 using Core.Models.Requests.Contracts;
 using Core.Models.Requests.Suppliers;
 using Core.Models.Requests.Users;
+using Core.Models.Response.ContractItemAttachments;
 using Core.Models.Response.ContractItems;
 using Core.Models.Response.Contracts;
 using Core.Models.Response.Suppliers;
@@ -57,6 +59,7 @@ namespace Core.Models.Profiles
             CreateMap<ContractItemRequest, ContractItem>();
 
             CreateMap<ContractItemAttachmentRequest,  ContractItemAttachment>();
+            CreateMap<ContractItemAttachment, ContractItemAttachmentResponse>().ReverseMap();
         }
     }
 }

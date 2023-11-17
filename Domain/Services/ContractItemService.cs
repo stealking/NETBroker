@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using Core.Entities;
 using Core.Models.Requests;
 using Core.Models.Requests.ContractItems;
-using Core.Models.Requests.Contracts;
 using Core.Models.Response.ContractItems;
 using Core.Repositories;
 using Core.Services;

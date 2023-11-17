@@ -8,6 +8,7 @@ namespace Core.Services
 
         Task UploadMultiFileAsync(List<IFormFile> files);
 
-        Task<(byte[], string, string)> DownloadFileById(int id);
+        Task<(byte[], string, string)> DownloadFile(string filePath);
+        Task<(byte[], string, string)> DownloadZipFiles(List<string?> filesPath);
     }
 }

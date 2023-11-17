@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Enums;
+using Core.Models.Requests.ContractItemAttachments;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Requests.ContractItems
