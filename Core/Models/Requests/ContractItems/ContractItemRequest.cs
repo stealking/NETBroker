@@ -1,4 +1,5 @@
-﻿using Core.Entities.Enums;
+﻿using Core.Entities;
+using Core.Entities.Enums;
 using Core.Models.Requests.ContractItemAttachments;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,5 +26,6 @@ namespace Core.Models.Requests.ContractItems
         public decimal? Adder { get; set; }
 
         public ICollection<ContractItemAttachmentRequest> ContractItemAttachments { get; set; } = new List<ContractItemAttachmentRequest>();
+        public List<ContractItemForecast> ContractItemForecasts { get; set; } = new List<ContractItemForecast>();
     }
 }

@@ -8,6 +8,9 @@
         IContractItemRepository ContractItem { get; }
         IContactRepository Contact { get; }
         IContractItemAttachmentRepository ContractItemAttachment { get; }
+        IContractItemForecastRepository ContractItemForecastRepository { get; }
+        IQualificationRepository QualificationRepository { get; }
+        ISaleProgramsRepository SaleProgramsRepository { get; }
         Task SaveAsync();
     }
 }

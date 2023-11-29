@@ -61,7 +61,7 @@ namespace NETBroker.Controllers
 
 
         [HttpGet]
-        [Route("download/{attachmentId}")]
+        [Route("attachments/download/{attachmentId}")]
         public async Task<IActionResult> Download(int attachmentId)
         {
             var item = await serviceManager.ContractItemAttachmentService.Find(attachmentId);
@@ -74,7 +74,7 @@ namespace NETBroker.Controllers
         }
 
         [HttpGet]
-        [Route("download-all/{contractItemId}")]
+        [Route("{contractItemId}/attachments/download")]
         public async Task<IActionResult> DownloadAll(int contractItemId)
         {
             var attachments = await serviceManager.ContractItemAttachmentService.FindAttachments(contractItemId);

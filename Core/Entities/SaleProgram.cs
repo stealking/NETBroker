@@ -22,5 +22,9 @@ namespace Core.Entities
         public string? SalesProgramType { get; set; }
         public ICollection<CommisionType>? CommisionTypes { get; set; }
         public ICollection<Qualification>? Qualifications { get; set; }
+        public ICollection<ContractItemForecast>? ContractItemForecasts { get; set; }
+
+        public int? ContractItemId { get; set; }
+        public ContractItem? ContractItem { get; set; }
     }
 }

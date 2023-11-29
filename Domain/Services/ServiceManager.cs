@@ -25,7 +25,7 @@ namespace Domain.Services
             _fileService = new Lazy<IFileService>(() => new FileService(repositoryManager));
             _supplierService = new Lazy<ISupplierService>(() => new SupplierService(repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(userManager, appSettings, mapper));
-            _contractService = new Lazy<IContractService>(() => new ContractService(repositoryManager, mapper, httpContextAccessor));
+            _contractService = new Lazy<IContractService>(() => new ContractService(repositoryManager, mapper, httpContextAccessor, this));
             _contractItemService = new Lazy<IContractItemService>(() => new ContractItemService(repositoryManager, mapper, _fileService.Value));
             _contactService = new Lazy<IContactService>(() => new ContactService(repositoryManager, mapper));
             _contractItemAttachmentService = new Lazy<IContractItemAttachmentService>(() => new ContractItemAttachmentService(repositoryManager, mapper));

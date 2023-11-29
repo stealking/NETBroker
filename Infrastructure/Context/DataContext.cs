@@ -41,6 +41,7 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new ExpirationQualificationConfiguration());
             modelBuilder.ApplyConfiguration(new AnnualUssageQualificationConfiguration());
             modelBuilder.ApplyConfiguration(new ContractItemAttachmentConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractItemForecastConfiguration());
 
             //modelBuilder.Entity<UserProfile>().Navigation(x => x.CloserContracts).AutoInclude();
             //modelBuilder.Entity<Customer>().Navigation(x => x.Contracts).AutoInclude();
@@ -62,5 +63,6 @@ namespace Infrastructure.Context
         public DbSet<CommissionConfigurationType> CommissionConfigurationTypes { get; set; }
         public DbSet<Qualification> Qualifications { get; set; }
         public DbSet<ContractItemAttachment> ContractItemAttachments { get; set; }
+        public DbSet<ContractItemForecast> ContractItemForecasts { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Core.Entities.Enums
         [Display(Name = ".jpg")]
         JPG,
         [Display(Name = ".docx")]
-        DOCX
+        DOCX,
+        [Display(Name = ".mp4")]
+        MP4,
     }
 }

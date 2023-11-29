@@ -19,12 +19,14 @@ namespace Domain.Services
         private readonly IRepositoryManager repositoryManager;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IServiceManager serviceManager;
 
-        public ContractService(IRepositoryManager repositoryManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public ContractService(IRepositoryManager repositoryManager, IMapper mapper, IHttpContextAccessor httpContextAccessor, IServiceManager serviceManager)
         {
             this.repositoryManager = repositoryManager;
             this.mapper = mapper;
             this.httpContextAccessor = httpContextAccessor;
+            this.serviceManager = serviceManager;
         }
 
         public async Task<bool> Create(IRequest baseRequest)
@@ -140,6 +142,28 @@ namespace Domain.Services
                 }
             }
             await repositoryManager.SaveAsync();
+        }
+
+        public async Task<(int, int)> VerifyContract(int contractId)
+        {
+            var contract = await repositoryManager.Contract.FindByCondition(x => x.Id == contractId && x.IsActive, x => x.ContractItems).FirstOrDefaultAsync();
+            if (contract == null)
+                throw new ArgumentNullException($"Contract id: {contractId} not found!");
+
+            if (contract.ContractItems?.Count == 0)
+                throw new ArgumentNullException($"Contract does not have contract item!");
+
+            var passItems = 0;
+            var failedItems = 0;
+            foreach (var contractItem in contract.ContractItems ?? new List<ContractItem>())
+            {
+                var result = await serviceManager.ContractItemService.VerifyForecastability(contractItem);
+                if (result.Item1)
+                    passItems++;
+                else
+                    failedItems++;
+            }
+            return (passItems, failedItems);
         }
     }
 }

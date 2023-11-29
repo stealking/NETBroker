@@ -8,10 +8,10 @@ namespace Core.Entities
     {
         private ContractItem()
         {
-            
+
         }
 
-        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator)
+        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator, Status status)
         {
             Id = id;
             ContractId = contractId;
@@ -24,13 +24,14 @@ namespace Core.Entities
             Rate = rate;
             Adder = adder;
             Creator = creator;
+            Status = status;
 
             var productTypeOfEnergy = energyUnitType.GetProductType();
             if (productType != productTypeOfEnergy)
             {
                 throw new ArgumentException($"{energyUnitType} does not belong product type: {productType}");
             }
-        }   
+        }
 
         [Key]
         public int Id { get; init; }
@@ -49,7 +50,7 @@ namespace Core.Entities
         public DateTime? EndDate => StartDate.AddMonths(TermMonth);
 
         [Required(ErrorMessage = "TermMonth is required field.")]
-        [Range(1, int.MaxValue, ErrorMessage = "The minimum value of TermMonth is 1")]
+        [Range(0, int.MaxValue, ErrorMessage = "The minimum value of TermMonth is 0")]
         public int TermMonth { get; set; }
 
         public ProductTypes ProductType { get; set; }
@@ -66,6 +67,13 @@ namespace Core.Entities
         [RegularExpression(@"^\d{1,5}(\.\d{1,5})?$", ErrorMessage = "Invalid Adder format.")]
         public decimal? Adder { get; set; }
 
+        public Status Status { get; set; } = Status.None;
+        public ForecastStateEnums? ForecastStateEnum { get; set; }
+
+        public ICollection<SaleProgram>? SalePrograms { get; set; }
+
         public ICollection<ContractItemAttachment> Attachments { get; set; } = new List<ContractItemAttachment>();
+
+        public ICollection<ContractItemForecast> ContractItemForecasts { get; set; } = new List<ContractItemForecast>();
     }
 }

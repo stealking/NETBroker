@@ -8,7 +8,7 @@ namespace Core.Models.Requests.ContractItemAttachments
     {
         public int Id { get; set; }
 
-        [FileType(FileTypes.PDF, FileTypes.JPG, FileTypes.JPEG, FileTypes.PNG, FileTypes.DOCX)]
+        [FileType(FileTypes.PDF, FileTypes.JPG, FileTypes.JPEG, FileTypes.PNG, FileTypes.DOCX, FileTypes.MP4)]
         [MaxFileSize(2147483648)]
         public IFormFile? FileData { get; set; }
 

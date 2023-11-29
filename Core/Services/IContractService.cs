@@ -7,5 +7,6 @@ namespace Core.Services
     public interface IContractService : IServiceBase<ContractResponse, IRequest, ContractParameters>
     {
         Task<ContractDetailResponse?> GetDetail(int id);
+        Task<(int, int)> VerifyContract(int contractId);
     }
 }

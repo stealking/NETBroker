@@ -1,6 +1,7 @@
 using AspNetCoreRateLimit;
 using Core.Models.Profiles;
 using Core.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using NETBroker.Extensions;
@@ -33,10 +34,10 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddMemoryCache();
 builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
-builder.WebHost.ConfigureKestrel((context, opt) =>
+builder.Services.Configure<FormOptions>(x =>
 {
-
-    opt.Limits.MaxRequestBodySize = 2147483648;
+    x.ValueLengthLimit = int.MaxValue;
+    x.MultipartBodyLengthLimit = int.MaxValue;
 });
 var app = builder.Build();
 
