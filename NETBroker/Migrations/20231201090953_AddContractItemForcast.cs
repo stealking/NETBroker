@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NETBroker.Migrations
 {
     /// <inheritdoc />
-    public partial class AddContractItemForecast : Migration
+    public partial class AddContractItemForcast : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,12 @@ namespace NETBroker.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "ForecastStateEnum",
+                table: "ContractItems",
+                type: "INTEGER",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "SaleProgramId",
                 table: "ContractItems",
                 type: "INTEGER",
                 nullable: true);
@@ -109,161 +115,161 @@ namespace NETBroker.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "ConcurrencyStamp", "DateCreated" },
-                values: new object[] { "dfa4ee96-f489-4297-b532-f44d8d572633", new DateTime(2023, 11, 23, 14, 51, 35, 246, DateTimeKind.Local).AddTicks(8902) });
+                values: new object[] { "c55e6557-83b7-4ae7-ac51-bc807957490a", new DateTime(2023, 12, 1, 16, 9, 53, 304, DateTimeKind.Local).AddTicks(6984) });
 
             migrationBuilder.UpdateData(
                 table: "Contacts",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(9967));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6130));
 
             migrationBuilder.UpdateData(
                 table: "Contacts",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(9971));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6133));
 
             migrationBuilder.UpdateData(
                 table: "Contacts",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(9972));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6134));
 
             migrationBuilder.UpdateData(
                 table: "Contacts",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(9973));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6135));
 
             migrationBuilder.UpdateData(
                 table: "Contacts",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(9973));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6135));
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6464), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2385), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 2,
-                columns: new[] { "Creator", "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { 1, new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6610), null, 0 });
+                columns: new[] { "Creator", "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { 1, new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2530), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 3,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6637), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2559), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 4,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6659), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2581), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 5,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6679), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2603), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 6,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6699), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2624), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 7,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6718), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2674), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 8,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6740), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2704), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 9,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6760), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2725), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "ContractItems",
                 keyColumn: "Id",
                 keyValue: 10,
-                columns: new[] { "DateCreated", "ForecastStateEnum", "Status" },
-                values: new object[] { new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(6794), null, 0 });
+                columns: new[] { "DateCreated", "ForecastStateEnum", "SaleProgramId", "Status" },
+                values: new object[] { new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2800), null, null, 0 });
 
             migrationBuilder.UpdateData(
                 table: "Contracts",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(3143));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(1620));
 
             migrationBuilder.UpdateData(
                 table: "Contracts",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(3152));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(1630));
 
             migrationBuilder.UpdateData(
                 table: "Customers",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(8533));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4478));
 
             migrationBuilder.UpdateData(
                 table: "Customers",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(8537));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4482));
 
             migrationBuilder.UpdateData(
                 table: "Customers",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(8538));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4483));
 
             migrationBuilder.UpdateData(
                 table: "Customers",
                 keyColumn: "Id",
                 keyValue: 4,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(8538));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4484));
 
             migrationBuilder.UpdateData(
                 table: "Customers",
                 keyColumn: "Id",
                 keyValue: 5,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(8539));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4484));
 
             migrationBuilder.UpdateData(
                 table: "SalePrograms",
@@ -284,12 +290,13 @@ namespace NETBroker.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "DateCreated",
-                value: new DateTime(2023, 11, 23, 14, 51, 35, 247, DateTimeKind.Local).AddTicks(1709));
+                value: new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(179));
 
             migrationBuilder.CreateIndex(
-                name: "IX_SalePrograms_ContractItemId",
-                table: "SalePrograms",
-                column: "ContractItemId");
+                name: "IX_ContractItems_SaleProgramId",
+                table: "ContractItems",
+                column: "SaleProgramId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContractItemAttachments_ContractItemId",
@@ -314,10 +321,10 @@ namespace NETBroker.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_SalePrograms_ContractItems_ContractItemId",
-                table: "SalePrograms",
-                column: "ContractItemId",
-                principalTable: "ContractItems",
+                name: "FK_ContractItems_SalePrograms_SaleProgramId",
+                table: "ContractItems",
+                column: "SaleProgramId",
+                principalTable: "SalePrograms",
                 principalColumn: "Id");
         }
 
@@ -329,15 +336,15 @@ namespace NETBroker.Migrations
                 table: "ContractItemAttachments");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_SalePrograms_ContractItems_ContractItemId",
-                table: "SalePrograms");
+                name: "FK_ContractItems_SalePrograms_SaleProgramId",
+                table: "ContractItems");
 
             migrationBuilder.DropTable(
                 name: "ContractItemForecasts");
 
             migrationBuilder.DropIndex(
-                name: "IX_SalePrograms_ContractItemId",
-                table: "SalePrograms");
+                name: "IX_ContractItems_SaleProgramId",
+                table: "ContractItems");
 
             migrationBuilder.DropIndex(
                 name: "IX_ContractItemAttachments_ContractItemId",
@@ -349,6 +356,10 @@ namespace NETBroker.Migrations
 
             migrationBuilder.DropColumn(
                 name: "ForecastStateEnum",
+                table: "ContractItems");
+
+            migrationBuilder.DropColumn(
+                name: "SaleProgramId",
                 table: "ContractItems");
 
             migrationBuilder.DropColumn(

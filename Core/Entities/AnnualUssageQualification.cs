@@ -4,7 +4,7 @@
     {
         private AnnualUssageQualification()
         {
-            
+
         }
         public AnnualUssageQualification(int id, int salesProgramId, int fromAnnualUsage, int toAnnualUsage)
         {
@@ -16,5 +16,10 @@
 
         public int FromAnnualUsage { get; set; }
         public int ToAnnualUsage { get; set; }
+
+        public override bool IsValidQualification(ContractItem contractItem)
+        {
+            return FromAnnualUsage >= contractItem.AnnualUsage && contractItem.AnnualUsage <= ToAnnualUsage;
+        }
     }
 }

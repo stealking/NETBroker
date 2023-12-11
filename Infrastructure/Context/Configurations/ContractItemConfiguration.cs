@@ -14,10 +14,10 @@ namespace Infrastructure.Context.Configurations
                 .HasForeignKey(x => x.ContractItemId)
                 .HasPrincipalKey(x => x.Id);
 
-            builder.HasMany(x => x.SalePrograms)
+            builder.HasOne(x => x.SaleProgram)
                 .WithOne(x => x.ContractItem)
-                .HasForeignKey(x => x.ContractItemId)
-                .HasPrincipalKey(x => x.Id);
+                .HasForeignKey<ContractItem>(x => x.SaleProgramId)
+                .IsRequired(false);
 
             builder.HasMany(x => x.ContractItemForecasts)
                .WithOne(x => x.ContractItem)

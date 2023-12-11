@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerService\LoggerService.csproj", "{AE876FB3-5500-48C9-9351-C8E81570B7A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeData", "FakeData\FakeData.csproj", "{8F5F4512-7205-448D-BCEB-FF87D3E959E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FakeData", "FakeData\FakeData.csproj", "{8F5F4512-7205-448D-BCEB-FF87D3E959E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{FDD370A6-5625-4999-B591-3CD26A99C352}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{8F5F4512-7205-448D-BCEB-FF87D3E959E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F5F4512-7205-448D-BCEB-FF87D3E959E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F5F4512-7205-448D-BCEB-FF87D3E959E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD370A6-5625-4999-B591-3CD26A99C352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD370A6-5625-4999-B591-3CD26A99C352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD370A6-5625-4999-B591-3CD26A99C352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD370A6-5625-4999-B591-3CD26A99C352}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

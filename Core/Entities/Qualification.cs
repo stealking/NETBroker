@@ -9,5 +9,7 @@ namespace Core.Entities
         public int? SalesProgramId { get; set; }
 
         public SaleProgram? SaleProgram { get; set; }
+
+        public virtual bool IsValidQualification(ContractItem contractItem) => true;
     }
 }

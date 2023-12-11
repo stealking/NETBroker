@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace NETBroker.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231201090953_AddContractItemForcast")]
+    partial class AddContractItemForcast
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -194,7 +197,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(3466),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6130),
                             IsActive = true,
                             Name = "Contact 1"
                         },
@@ -202,7 +205,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(3470),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6133),
                             IsActive = true,
                             Name = "Contact 2"
                         },
@@ -210,7 +213,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(3471),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6134),
                             IsActive = true,
                             Name = "Contact 3"
                         },
@@ -218,7 +221,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(3472),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6135),
                             IsActive = true,
                             Name = "Contact 4"
                         },
@@ -226,7 +229,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(3472),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(6135),
                             IsActive = true,
                             Name = "Contact 5"
                         });
@@ -310,7 +313,7 @@ namespace NETBroker.Migrations
                             ContactId = 1,
                             Creator = 1,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 471, DateTimeKind.Local).AddTicks(9912),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(1620),
                             EnrollmentType = 0,
                             FronterId = 1,
                             IsActive = true,
@@ -329,7 +332,7 @@ namespace NETBroker.Migrations
                             ContactId = 1,
                             Creator = 2,
                             CustomerId = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 471, DateTimeKind.Local).AddTicks(9926),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(1630),
                             EnrollmentType = 0,
                             FronterId = 1,
                             IsActive = true,
@@ -411,7 +414,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 58398,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 472, DateTimeKind.Local).AddTicks(9986),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2385),
                             EnergyUnitType = 0,
                             IsActive = true,
                             ProductType = 1,
@@ -428,7 +431,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 12303,
                             ContractId = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(177),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2530),
                             EnergyUnitType = 1,
                             IsActive = true,
                             ProductType = 2,
@@ -445,7 +448,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 835,
                             ContractId = 1,
                             Creator = 3,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(211),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2559),
                             EnergyUnitType = 2,
                             IsActive = true,
                             ProductType = 1,
@@ -462,7 +465,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 160880,
                             ContractId = 1,
                             Creator = 4,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(235),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2581),
                             EnergyUnitType = 0,
                             IsActive = true,
                             ProductType = 1,
@@ -479,7 +482,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 89340,
                             ContractId = 1,
                             Creator = 5,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(256),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2603),
                             EnergyUnitType = 3,
                             IsActive = true,
                             ProductType = 2,
@@ -496,7 +499,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 36000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(277),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2624),
                             EnergyUnitType = 0,
                             IsActive = true,
                             ProductType = 1,
@@ -513,7 +516,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 4200,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(297),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2674),
                             EnergyUnitType = 4,
                             IsActive = true,
                             ProductType = 2,
@@ -530,7 +533,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 1500,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(320),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2704),
                             EnergyUnitType = 2,
                             IsActive = true,
                             ProductType = 1,
@@ -547,7 +550,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 60000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(341),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2725),
                             EnergyUnitType = 1,
                             IsActive = true,
                             ProductType = 2,
@@ -564,7 +567,7 @@ namespace NETBroker.Migrations
                             AnnualUsage = 15000,
                             ContractId = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(361),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(2800),
                             EnergyUnitType = 0,
                             IsActive = true,
                             ProductType = 1,
@@ -669,7 +672,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(1909),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4478),
                             IsActive = true,
                             Name = "Customer 1"
                         },
@@ -677,7 +680,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 2,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(1913),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4482),
                             IsActive = true,
                             Name = "Customer 2"
                         },
@@ -685,7 +688,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 3,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(1914),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4483),
                             IsActive = true,
                             Name = "Customer 3"
                         },
@@ -693,7 +696,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 4,
                             Creator = 2,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(1914),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4484),
                             IsActive = true,
                             Name = "Customer 4"
                         },
@@ -701,7 +704,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 5,
                             Creator = 3,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 473, DateTimeKind.Local).AddTicks(1915),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 306, DateTimeKind.Local).AddTicks(4484),
                             IsActive = true,
                             Name = "Customer 5"
                         });
@@ -713,17 +716,17 @@ namespace NETBroker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ControlDateModifierType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ControlDateModifierType")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ControlDateOffsetType")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ControlDateOffsetValue")
-                        .HasColumnType("INTEGER");
+                    b.Property<decimal>("ControlDateOffsetValue")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("ControlDateType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ControlDateType")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -733,26 +736,26 @@ namespace NETBroker.Migrations
                         new
                         {
                             Id = 1,
-                            ControlDateModifierType = 0,
-                            ControlDateOffsetType = 4,
-                            ControlDateOffsetValue = 2,
-                            ControlDateType = 0
+                            ControlDateModifierType = "NoModifier",
+                            ControlDateOffsetType = 5,
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
                         },
                         new
                         {
                             Id = 2,
-                            ControlDateModifierType = 0,
+                            ControlDateModifierType = "NoModifier",
                             ControlDateOffsetType = 0,
-                            ControlDateOffsetValue = 0,
-                            ControlDateType = 0
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
                         },
                         new
                         {
                             Id = 3,
-                            ControlDateModifierType = 0,
+                            ControlDateModifierType = "NoModifier",
                             ControlDateOffsetType = 0,
-                            ControlDateOffsetValue = 0,
-                            ControlDateType = 0
+                            ControlDateOffsetValue = 2m,
+                            ControlDateType = "SoldDate"
                         });
                 });
 
@@ -894,7 +897,7 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             Creator = 1,
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 471, DateTimeKind.Local).AddTicks(8581),
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 305, DateTimeKind.Local).AddTicks(179),
                             IsActive = true,
                             Name = "IGS"
                         });
@@ -987,8 +990,8 @@ namespace NETBroker.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "48a4414b-29fa-421a-aed2-c5b718b1db34",
-                            DateCreated = new DateTime(2023, 12, 8, 17, 0, 34, 471, DateTimeKind.Local).AddTicks(5776),
+                            ConcurrencyStamp = "c55e6557-83b7-4ae7-ac51-bc807957490a",
+                            DateCreated = new DateTime(2023, 12, 1, 16, 9, 53, 304, DateTimeKind.Local).AddTicks(6984),
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FullName = "Admin",

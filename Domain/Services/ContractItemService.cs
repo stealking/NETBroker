@@ -115,49 +115,5 @@ namespace Domain.Services
             await repositoryManager.ContractItem.UpdateAsync(contractItem);
             await repositoryManager.SaveAsync();
         }
-
-        public async Task<(bool, ContractItem)> VerifyForecastability(ContractItem contractItem)
-        {
-            if (contractItem.Status == Status.None)
-            {
-                contractItem.ForecastStateEnum = ForecastStateEnums.InvalidSalesData;
-                return (false, contractItem);
-            }
-
-            if (contractItem.Status == Status.Rejected)
-            {
-                contractItem.ForecastStateEnum = ForecastStateEnums.RejectedDeal;
-                return (false, contractItem);
-            }
-
-            var contract = await repositoryManager.Contract.FindByCondition(x => x.IsActive && x.Id == contractItem.Id, x => x.Supplier).FirstOrDefaultAsync();
-            if (contract != null)
-            {
-                contractItem.ForecastStateEnum = ForecastStateEnums.InvalidSalesData;
-                return (false, contractItem);
-            }
-
-            if (contract?.Supplier == null)
-            {
-                contractItem.ForecastStateEnum = ForecastStateEnums.MissingSalesProgram;
-                return (false, contractItem);
-            }
-
-            var expirationQualifications = await repositoryManager.QualificationRepository.GetExpirationQualifications(x => x.EffectiveDate >= contract.SoldDate && x.ExpiryDate <= contract.SoldDate, x => x.SaleProgram)
-                .Select(s => s.SaleProgram)
-                .ToListAsync();
-            var annualUssageQualifications = await repositoryManager.QualificationRepository.GetAnnualUssageQualifications(x => x.FromAnnualUsage >= contractItem.AnnualUsage && contractItem.AnnualUsage <= x.ToAnnualUsage, x => x.SaleProgram)
-                .Select(s => s.SaleProgram)
-                .ToListAsync();
-
-            if (expirationQualifications.Count == 0 && annualUssageQualifications.Count == 0)
-            {
-                contractItem.ForecastStateEnum = ForecastStateEnums.MissingSalesProgram;
-                return (false, contractItem);
-            }
-
-            contractItem.ForecastStateEnum = ForecastStateEnums.Reforecast;
-            return (true, contractItem);
-        }
     }
 }

@@ -126,8 +126,8 @@ namespace Domain.Services
                 if (item.Id == 0)
                 {
                     var userId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)?.ConvertToIntOrDefault(0);
+                    item.ContractId = contract.Id;
                     var contractItem = mapper.Map<ContractItem>(item);
-                    contractItem.ContractId = contract.Id;
                     contractItem.Creator = userId;
                     await repositoryManager.ContractItem.CreateAsync(contractItem);
                 }
@@ -155,14 +155,15 @@ namespace Domain.Services
 
             var passItems = 0;
             var failedItems = 0;
-            foreach (var contractItem in contract.ContractItems ?? new List<ContractItem>())
-            {
-                var result = await serviceManager.ContractItemService.VerifyForecastability(contractItem);
+            var salePrograms = await repositoryManager.SaleProgramsRepository.FindByCondition(x => true, x => x.Qualifications).ToListAsync();
+            Parallel.ForEach(contract.ContractItems, (contractItem) => {
+                var result = contractItem.VerifyForecastability(salePrograms);
                 if (result.Item1)
                     passItems++;
                 else
                     failedItems++;
-            }
+            });
+
             return (passItems, failedItems);
         }
     }

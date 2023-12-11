@@ -20,9 +20,9 @@ namespace Infrastructure.Context.Configurations
                 .HasPrincipalKey(p => p.Id);
 
             builder.HasData(
-                new DateConfig(1, "SoldDate", "NoModifier", ControlDateOffsetType.DayOfWeek_Fridays, 2m),
-                new DateConfig(2, "SoldDate", "NoModifier", ControlDateOffsetType.NoOffset, 2m),
-                new DateConfig(3, "SoldDate", "NoModifier", ControlDateOffsetType.NoOffset, 2m)
+                new DateConfig(1, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.DayOfWeek_Fridays, 2),
+                new DateConfig(2, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0),
+                new DateConfig(3, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0)
                 );
         }
     }
