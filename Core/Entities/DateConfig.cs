@@ -6,13 +6,14 @@ namespace Core.Entities
 {
     public class DateConfig
     {
-        public DateConfig()
+        private DateConfig()
         {
         }
 
-        public DateConfig(int id, ControlDateTypes controlDateType, ControlDateModifierTypes controlDateModifierType, ControlDateOffsetType controlDateOffsetType, int controlDateOffsetValue)
+        public DateConfig(int id, int commisionTypeId, ControlDateTypes controlDateType, ControlDateModifierTypes controlDateModifierType, ControlDateOffsetType controlDateOffsetType, int controlDateOffsetValue)
         {
             Id = id;
+            CommisionTypeId = commisionTypeId;
             ControlDateType = controlDateType;
             ControlDateModifierType = controlDateModifierType;
             ControlDateOffsetType = controlDateOffsetType;
@@ -26,15 +27,16 @@ namespace Core.Entities
         public ControlDateOffsetType ControlDateOffsetType { get; private set; }
         public int ControlDateOffsetValue { get; set; }
 
-        public ICollection<CommisionType>? CommisionTypes { get; private set; }
+        public int? CommisionTypeId { get; private set; }
+        public CommisionType? CommisionTypes { get; private set; }
 
 
-        public DateTime? GetControlDate(ContractItem contractItem)
+        public DateTime GetControlDate(ContractItem contractItem)
         {
             switch (ControlDateType)
             {
                 case ControlDateTypes.SoldDate:
-                    return contractItem.Contract?.SoldDate;
+                    return contractItem.Contract.SoldDate;
                 case ControlDateTypes.ServiceStartDate:
                     return contractItem.StartDate;
                 case ControlDateTypes.CustomerInvoiceDate:
@@ -46,11 +48,11 @@ namespace Core.Entities
                 case ControlDateTypes.UtilityAcceptanceDate:
                     return contractItem.StartDate.AddMonths(-1);
                 default:
-                    return null;
+                    return contractItem.Contract.SoldDate;
             }
         }
 
-        public DateTime? GetControlDateModifierType(DateTime date)
+        public DateTime GetControlDateModifierType(DateTime date)
         {
             switch (ControlDateModifierType)
             {
@@ -89,11 +91,11 @@ namespace Core.Entities
                 case ControlDateModifierTypes.CutOff15ofMonthFollowingThursday:
                     return date.CutOff15ofMonthFollowingDayofWeek(DayOfWeek.Thursday);
                 default:
-                    return null;
+                    return date;
             }
         }
 
-        public DateTime? GetControlDateOffsetType(DateTime date)
+        public DateTime GetControlDateOffsetType(DateTime date)
         {
             if (ControlDateOffsetValue < 0) return date;
 
@@ -118,8 +120,16 @@ namespace Core.Entities
                     var lastDateOfMonth = date.AddDaysOffsetNotOverMonth(ControlDateOffsetValue);
                     return lastDateOfMonth.GetNextWeekday(DayOfWeek.Friday);
                 default:
-                    return null;
+                    return date;
             }
+        }
+
+        public DateTime GetForecastDate(ContractItem contractItem)
+        {
+            var controlDate = GetControlDate(contractItem);
+            var controlDateModifierType = GetControlDateModifierType(controlDate);
+            var controlDateOffsetType = GetControlDateOffsetType(controlDateModifierType);
+            return controlDateOffsetType;
         }
     }
 }

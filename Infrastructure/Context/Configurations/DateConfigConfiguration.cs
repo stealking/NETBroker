@@ -14,15 +14,10 @@ namespace Infrastructure.Context.Configurations
             builder.Property(x => x.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.HasMany(p => p.CommisionTypes)
-                .WithOne(p => p.DateConfig)
-                .HasForeignKey(p => p.DateConfigId)
-                .HasPrincipalKey(p => p.Id);
-
             builder.HasData(
-                new DateConfig(1, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.DayOfWeek_Fridays, 2),
-                new DateConfig(2, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0),
-                new DateConfig(3, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0)
+                new DateConfig(1, 1, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.DayOfWeek_Fridays, 2),
+                new DateConfig(2, 2, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0),
+                new DateConfig(3, 3, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0)
                 );
         }
     }

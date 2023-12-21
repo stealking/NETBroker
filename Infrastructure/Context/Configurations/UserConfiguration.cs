@@ -19,7 +19,8 @@ namespace Infrastructure.Context.Configurations
                .HasPrincipalKey(p => p.Id);
 
             builder.HasData(
-                new UserProfile(1, "admin", "Admin", "admin@example.com", null, null, null, null)
+                new UserProfile(1, "admin", "Admin", "admin@example.com", null, null, null, null),
+                new UserProfile(2, "user", "User", "user@example.com", null, null, null, null)
                 );
         }
     }

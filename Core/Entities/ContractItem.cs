@@ -11,7 +11,7 @@ namespace Core.Entities
 
         }
 
-        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator, Status status)
+        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int annualUsage, decimal? rate, decimal adder, int creator, Status status)
         {
             Id = id;
             ContractId = contractId;
@@ -33,7 +33,7 @@ namespace Core.Entities
             }
         }
 
-        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int? annualUsage, decimal? rate, decimal? adder, int creator, Status status, Contract contract)
+        public ContractItem(int id, int contractId, string? utilityAccountNumber, DateTime startDate, int termMonth, ProductTypes productType, EnergyUnitTypes energyUnitType, int annualUsage, decimal? rate, decimal adder, int creator, Status status, Contract contract)
         {
             Id = id;
             ContractId = contractId;
@@ -60,7 +60,7 @@ namespace Core.Entities
         public int Id { get; init; }
 
         [Required(ErrorMessage = "ContractId is required field.")]
-        public int ContractId { get; private set; }
+        public int? ContractId { get; private set; }
         public Contract? Contract { get; private set; }
 
         [Required(ErrorMessage = "UtilityAccountNumber is required field.")]
@@ -80,7 +80,7 @@ namespace Core.Entities
 
         public EnergyUnitTypes EnergyUnitType { get; private set; }
 
-        public int? AnnualUsage { get; private set; }
+        public int AnnualUsage { get; private set; }
 
         [DisplayFormat(DataFormatString = "{0:N5}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\d{1,5}(\.\d{1,5})?$", ErrorMessage = "Invalid Rate format.")]
@@ -88,7 +88,7 @@ namespace Core.Entities
 
         [DisplayFormat(DataFormatString = "{0:N5}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\d{1,5}(\.\d{1,5})?$", ErrorMessage = "Invalid Adder format.")]
-        public decimal? Adder { get; private set; }
+        public decimal Adder { get; private set; }
 
         public Status Status { get; set; } = Status.None;
         public ForecastStateEnums? ForecastStateEnum { get; private set; }
@@ -100,38 +100,42 @@ namespace Core.Entities
 
         public ICollection<ContractItemForecast> ContractItemForecasts { get; private set; } = new List<ContractItemForecast>();
 
+        public void SetContract(Contract contract)
+        {
+            Contract = contract;
+        }
 
-        public (bool, ContractItem) VerifyForecastability(List<SaleProgram> salePrograms)
+        public bool VerifyForecastability(List<SaleProgram> salePrograms)
         {
             if (Status == Status.None)
             {
                 ForecastStateEnum = ForecastStateEnums.InvalidSalesData;
-                return (false, this);
+                return false;
             }
 
             if (Status == Status.Rejected)
             {
                 ForecastStateEnum = ForecastStateEnums.RejectedDeal;
-                return (false, this);
+                return false;
             }
 
             if (Contract != null)
             {
                 ForecastStateEnum = ForecastStateEnums.InvalidSalesData;
-                return (false, this);
+                return false;
             }
 
             if (Contract?.Supplier == null)
             {
                 ForecastStateEnum = ForecastStateEnums.MissingSalesProgram;
-                return (false, this);
+                return false;
             }
 
             var validSalePrograms = salePrograms.Where(x => x.Qualifications.Any(x => x.IsValidQualification(this)));
             if (validSalePrograms.Any())
             {
                 ForecastStateEnum = ForecastStateEnums.MissingSalesProgram;
-                return (false, this);
+                return false;
             }
             else
             {
@@ -142,14 +146,34 @@ namespace Core.Entities
                 if (saleProgram?.CommisionTypes?.Any(x => x.ProgramAdder == null || x.DateConfig == null) ?? false)
                 {
                     ForecastStateEnum = ForecastStateEnums.InvalidSalesData;
-                    return (false, this);
+                    return false;
                 }
 
                 SaleProgramId = saleProgram?.Id;
             }
 
             ForecastStateEnum = ForecastStateEnums.Reforecast;
-            return (true, this);
+            return true;
+        }
+
+        public bool ForecastContractItem()
+        {
+            if (ForecastStateEnum == ForecastStateEnums.Complete)
+            {
+                ContractItemForecasts.Clear();
+            }
+
+            if (ForecastStateEnum == ForecastStateEnums.Reforecast) return false;
+
+            if (SaleProgram == null || SaleProgram?.CommisionTypes?.Any() == false) return false;
+
+            foreach (var commision in SaleProgram.CommisionTypes)
+            {
+                var contractItemForecasts = commision.GetContractItemForecast(this);
+                contractItemForecasts.ForEach(ContractItemForecasts.Add);
+            }
+
+            return true;
         }
     }
 }

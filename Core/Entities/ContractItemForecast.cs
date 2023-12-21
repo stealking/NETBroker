@@ -2,14 +2,18 @@
 {
     public class ContractItemForecast
     {
-        public ContractItemForecast(int id, decimal amount, DateTime forecastDate, int forecastMonth, int forecastYear, string? forecastMonthOfYear)
+        private ContractItemForecast()
         {
-            Id = id;
+            
+        }
+        public ContractItemForecast(int contractItemId, decimal amount, DateTime forecastDate)
+        {
+            ContractItemId = contractItemId;
             Amount = amount;
             ForecastDate = forecastDate;
-            ForecastMonth = forecastMonth;
-            ForecastYear = forecastYear;
-            ForecastMonthOfYear = forecastMonthOfYear;
+            ForecastMonth = forecastDate.Month;
+            ForecastYear = forecastDate.Year;
+            ForecastMonthOfYear = forecastDate.ToString("MMMM");
         }
 
         public int Id { get; init; }

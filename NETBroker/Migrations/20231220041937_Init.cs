@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NETBroker.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,26 +60,13 @@ namespace NETBroker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommissionConfigurationTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommissionConfigurationTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contacts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -95,29 +82,13 @@ namespace NETBroker.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DateConfigs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ControlDateType = table.Column<string>(type: "TEXT", nullable: true),
-                    ControlDateModifierType = table.Column<string>(type: "TEXT", nullable: true),
-                    ControlDateOffsetType = table.Column<int>(type: "INTEGER", nullable: false),
-                    ControlDateOffsetValue = table.Column<decimal>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DateConfigs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +99,8 @@ namespace NETBroker.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EnergyUnitType = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
-                    SalesProgramType = table.Column<string>(type: "TEXT", nullable: true)
+                    SalesProgramType = table.Column<string>(type: "TEXT", nullable: true),
+                    ContractItemId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -142,7 +114,7 @@ namespace NETBroker.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -263,27 +235,19 @@ namespace NETBroker.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CommissionConfigurationTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DateConfigId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CommissionConfigurationType = table.Column<string>(type: "TEXT", nullable: false),
                     ProgramAdderType = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProgramAdder = table.Column<double>(type: "REAL", nullable: true),
+                    ProgramAdder = table.Column<decimal>(type: "TEXT", nullable: false),
                     MarginPercent = table.Column<decimal>(type: "TEXT", nullable: false),
-                    SalesProgramId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SalesProgramId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    DiscountPercentage = table.Column<decimal>(type: "TEXT", nullable: true),
+                    Fee = table.Column<decimal>(type: "TEXT", nullable: true),
+                    FirstAnnualUpfront_DiscountPercentage = table.Column<decimal>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CommisionTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommisionTypes_CommissionConfigurationTypes_CommissionConfigurationTypeId",
-                        column: x => x.CommissionConfigurationTypeId,
-                        principalTable: "CommissionConfigurationTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CommisionTypes_DateConfigs_DateConfigId",
-                        column: x => x.DateConfigId,
-                        principalTable: "DateConfigs",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_CommisionTypes_SalePrograms_SalesProgramId",
                         column: x => x.SalesProgramId,
@@ -323,7 +287,7 @@ namespace NETBroker.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     LegalEntityName = table.Column<string>(type: "TEXT", nullable: false),
-                    SoldDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    SoldDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     BillingChargeType = table.Column<int>(type: "INTEGER", nullable: false),
                     BillingType = table.Column<int>(type: "INTEGER", nullable: false),
                     EnrollmentType = table.Column<int>(type: "INTEGER", nullable: false),
@@ -333,7 +297,8 @@ namespace NETBroker.Migrations
                     CloserId = table.Column<int>(type: "INTEGER", nullable: true),
                     FronterId = table.Column<int>(type: "INTEGER", nullable: true),
                     CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    Stage = table.Column<int>(type: "INTEGER", nullable: false),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -391,6 +356,28 @@ namespace NETBroker.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DateConfigs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ControlDateType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ControlDateModifierType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ControlDateOffsetType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ControlDateOffsetValue = table.Column<int>(type: "INTEGER", nullable: false),
+                    CommisionTypeId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DateConfigs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DateConfigs_CommisionTypes_CommisionTypeId",
+                        column: x => x.CommisionTypeId,
+                        principalTable: "CommisionTypes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContractItems",
                 columns: table => new
                 {
@@ -402,10 +389,13 @@ namespace NETBroker.Migrations
                     TermMonth = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductType = table.Column<int>(type: "INTEGER", nullable: false),
                     EnergyUnitType = table.Column<int>(type: "INTEGER", nullable: false),
-                    AnnualUsage = table.Column<int>(type: "INTEGER", nullable: true),
+                    AnnualUsage = table.Column<int>(type: "INTEGER", nullable: false),
                     Rate = table.Column<decimal>(type: "TEXT", nullable: true),
-                    Adder = table.Column<decimal>(type: "TEXT", nullable: true),
-                    Creator = table.Column<int>(type: "INTEGER", nullable: false),
+                    Adder = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    ForecastStateEnum = table.Column<int>(type: "INTEGER", nullable: true),
+                    SaleProgramId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Creator = table.Column<int>(type: "INTEGER", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -416,6 +406,62 @@ namespace NETBroker.Migrations
                         name: "FK_ContractItems_Contracts_ContractId",
                         column: x => x.ContractId,
                         principalTable: "Contracts",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ContractItems_SalePrograms_SaleProgramId",
+                        column: x => x.SaleProgramId,
+                        principalTable: "SalePrograms",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractItemAttachments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FilePath = table.Column<string>(type: "TEXT", nullable: true),
+                    FileName = table.Column<string>(type: "TEXT", nullable: false),
+                    FileType = table.Column<string>(type: "TEXT", nullable: false),
+                    ContractItemId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContractItemAttachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContractItemAttachments_ContractItems_ContractItemId",
+                        column: x => x.ContractItemId,
+                        principalTable: "ContractItems",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContractItemForecasts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Amount = table.Column<decimal>(type: "TEXT", nullable: false),
+                    ForecastDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ForecastMonth = table.Column<int>(type: "INTEGER", nullable: false),
+                    ForecastYear = table.Column<int>(type: "INTEGER", nullable: false),
+                    ForecastMonthOfYear = table.Column<string>(type: "TEXT", nullable: true),
+                    ContractItemId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SaleProgramId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContractItemForecasts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContractItemForecasts_ContractItems_ContractItemId",
+                        column: x => x.ContractItemId,
+                        principalTable: "ContractItems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ContractItemForecasts_SalePrograms_SaleProgramId",
+                        column: x => x.SaleProgramId,
+                        principalTable: "SalePrograms",
                         principalColumn: "Id");
                 });
 
@@ -432,16 +478,10 @@ namespace NETBroker.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "BirthDay", "ConcurrencyStamp", "DateCreated", "Email", "EmailConfirmed", "FullName", "IsActive", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, null, null, "6cdab079-9aab-4013-892d-e0c46406a634", new DateTime(2023, 10, 26, 16, 54, 4, 644, DateTimeKind.Local).AddTicks(6516), "admin@example.com", true, "Admin", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN", null, null, true, null, false, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "CommissionConfigurationTypes",
-                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "ContractUpfront" },
-                    { 2, "PercentageContractResidual" },
-                    { 3, "QuarterlyUpfront" }
+                    { 1, 0, null, null, "05ee14de-8148-419a-9293-7a3c0006f391", new DateTime(2023, 12, 20, 11, 19, 37, 433, DateTimeKind.Local).AddTicks(6271), "admin@example.com", true, "Admin", true, false, null, "ADMIN@EXAMPLE.COM", "ADMIN", null, null, true, null, false, "admin" },
+                    { 2, 0, null, null, "0073072b-fa9d-4b69-ab5a-809389f9a5ef", new DateTime(2023, 12, 20, 11, 19, 37, 433, DateTimeKind.Local).AddTicks(6360), "user@example.com", true, "User", true, false, null, "USER@EXAMPLE.COM", "USER", null, null, true, null, false, "user" }
                 });
 
             migrationBuilder.InsertData(
@@ -449,11 +489,11 @@ namespace NETBroker.Migrations
                 columns: new[] { "Id", "Creator", "DateCreated", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4316), true, "Contact 1" },
-                    { 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4320), true, "Contact 2" },
-                    { 3, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4321), true, "Contact 3" },
-                    { 4, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4321), true, "Contact 4" },
-                    { 5, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(4322), true, "Contact 5" }
+                    { 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(6445), true, "Contact 1" },
+                    { 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(6448), true, "Contact 2" },
+                    { 3, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(6449), true, "Contact 3" },
+                    { 4, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(6450), true, "Contact 4" },
+                    { 5, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(6451), true, "Contact 5" }
                 });
 
             migrationBuilder.InsertData(
@@ -461,54 +501,48 @@ namespace NETBroker.Migrations
                 columns: new[] { "Id", "Creator", "DateCreated", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2759), true, "Customer 1" },
-                    { 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2764), true, "Customer 2" },
-                    { 3, 2, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2765), true, "Customer 3" },
-                    { 4, 2, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2765), true, "Customer 4" },
-                    { 5, 3, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(2766), true, "Customer 5" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "DateConfigs",
-                columns: new[] { "Id", "ControlDateModifierType", "ControlDateOffsetType", "ControlDateOffsetValue", "ControlDateType" },
-                values: new object[,]
-                {
-                    { 1, "NoModifier", 5, 2m, "SoldDate" },
-                    { 2, "NoModifier", 0, 2m, "SoldDate" },
-                    { 3, "NoModifier", 0, 2m, "SoldDate" }
+                    { 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(4911), true, "Customer 1" },
+                    { 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(4916), true, "Customer 2" },
+                    { 3, 2, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(4917), true, "Customer 3" },
+                    { 4, 2, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(4918), true, "Customer 4" },
+                    { 5, 3, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(4918), true, "Customer 5" }
                 });
 
             migrationBuilder.InsertData(
                 table: "SalePrograms",
-                columns: new[] { "Id", "Description", "EnergyUnitType", "SalesProgramType" },
+                columns: new[] { "Id", "ContractItemId", "Description", "EnergyUnitType", "SalesProgramType" },
                 values: new object[,]
                 {
-                    { 1, "50% contract upfront then residual", 0, "PercentageContractUpfront + PercentageContractResidual" },
-                    { 2, "Forecast annual margin divided by four", 3, "QuarterlyUpfront" }
+                    { 1, null, "50% contract upfront then residual", 0, "PercentageContractUpfront + PercentageContractResidual" },
+                    { 2, null, "Forecast annual margin divided by four", 3, "QuarterlyUpfront" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "Id", "Creator", "DateCreated", "IsActive", "Name" },
-                values: new object[] { 1, 1, new DateTime(2023, 10, 26, 16, 54, 4, 644, DateTimeKind.Local).AddTicks(9443), true, "IGS" });
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 433, DateTimeKind.Local).AddTicks(9742), true, "IGS" },
+                    { 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 433, DateTimeKind.Local).AddTicks(9749), true, "TTS" }
+                });
 
             migrationBuilder.InsertData(
                 table: "CommisionTypes",
-                columns: new[] { "Id", "CommissionConfigurationTypeId", "DateConfigId", "MarginPercent", "ProgramAdder", "ProgramAdderType", "SalesProgramId" },
+                columns: new[] { "Id", "CommissionConfigurationType", "Discriminator", "MarginPercent", "ProgramAdder", "ProgramAdderType", "SalesProgramId" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 0.5m, 0.0070000000000000001, 1, 1 },
-                    { 2, 2, 2, 0.5m, 0.0070000000000000001, 1, 1 },
-                    { 3, 3, 3, 0m, 0.0070000000000000001, 1, 2 }
+                    { 1, "ContractUpfront", "ContractUpfront", 0.5m, 0.007m, 1, 1 },
+                    { 2, "PercentageContractResidual", "PercentageContractResidual", 0.5m, 0.007m, 1, 1 },
+                    { 3, "QuarterlyUpfront", "QuarterlyUpfront", 0.5m, 0.007m, 1, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Contracts",
-                columns: new[] { "Id", "BillingChargeType", "BillingType", "CloserId", "ContactId", "Creator", "CustomerId", "DateCreated", "EnrollmentType", "FronterId", "IsActive", "LegalEntityName", "PricingType", "SoldDate", "SupplierId" },
+                columns: new[] { "Id", "BillingChargeType", "BillingType", "CloserId", "ContactId", "Creator", "CustomerId", "DateCreated", "EnrollmentType", "FronterId", "IsActive", "LegalEntityName", "PricingType", "SoldDate", "Stage", "SupplierId" },
                 values: new object[,]
                 {
-                    { 1, 0, 0, 1, 1, 1, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(936), 0, 1, true, "John A", 0, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 2, 0, 0, 1, 1, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(943), 0, 1, true, "John B", 0, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, 0, 0, 1, 1, 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 434, DateTimeKind.Local).AddTicks(1262), 0, 1, true, "John A", 0, new DateTime(2023, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 1 },
+                    { 2, 0, 0, 1, 1, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 434, DateTimeKind.Local).AddTicks(1272), 0, 1, true, "John B", 0, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -537,19 +571,29 @@ namespace NETBroker.Migrations
 
             migrationBuilder.InsertData(
                 table: "ContractItems",
-                columns: new[] { "Id", "Adder", "AnnualUsage", "ContractId", "Creator", "DateCreated", "EnergyUnitType", "IsActive", "ProductType", "Rate", "StartDate", "TermMonth", "UtilityAccountNumber" },
+                columns: new[] { "Id", "Adder", "AnnualUsage", "ContractId", "Creator", "DateCreated", "EnergyUnitType", "ForecastStateEnum", "IsActive", "ProductType", "Rate", "SaleProgramId", "StartDate", "Status", "TermMonth", "UtilityAccountNumber" },
                 values: new object[,]
                 {
-                    { 1, 0.0075m, 58398, 1, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1268), 0, true, 0, 0.01275m, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 24, "9138014006" },
-                    { 2, 0.073m, 12303, 1, 2, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1272), 1, true, 1, 0.2275m, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, "9138014006" },
-                    { 3, 6.3m, 835, 1, 3, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1275), 2, true, 0, 23m, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, "9138014006" },
-                    { 4, 0.0073m, 160880, 1, 4, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1276), 0, true, 0, 0.02275m, new DateTime(2023, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, "9138014006" },
-                    { 5, 0.083m, 89340, 1, 5, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1277), 3, true, 1, 0.3275m, new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, "9138014006" },
-                    { 6, 0.003m, 36000, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1279), 0, true, 0, 0.0225m, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 17, "177478640021" },
-                    { 7, 0.073m, 4200, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1280), 4, true, 1, 2.275m, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 14, "177478640021" },
-                    { 8, 5.32m, 1500, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1281), 2, true, 0, 20.75m, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, "177478640021" },
-                    { 9, 0.053m, 60000, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1283), 1, true, 1, 0.1275m, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 18, "177478640021" },
-                    { 10, 0.0033m, 15000, 2, 1, new DateTime(2023, 10, 26, 16, 54, 4, 645, DateTimeKind.Local).AddTicks(1284), 0, true, 0, 0.04275m, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, "177478640021" }
+                    { 1, 0.0075m, 58398, 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2042), 0, null, true, 1, 0.01275m, null, new DateTime(2023, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 24, "9138014006" },
+                    { 2, 0.073m, 12303, 1, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2418), 1, null, true, 2, 0.2275m, null, new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 16, "9138014006" },
+                    { 3, 6.3m, 835, 1, 3, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2596), 2, null, true, 1, 23m, null, new DateTime(2023, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 12, "9138014006" },
+                    { 4, 0.0073m, 160880, 1, 4, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2753), 0, null, true, 1, 0.02275m, null, new DateTime(2023, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 15, "9138014006" },
+                    { 5, 0.083m, 89340, 1, 5, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2775), 3, null, true, 2, 0.3275m, null, new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 12, "9138014006" },
+                    { 6, 0.003m, 36000, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2939), 0, null, true, 1, 0.0225m, null, new DateTime(2023, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 17, "177478640021" },
+                    { 7, 0.073m, 4200, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(2961), 4, null, true, 2, 2.275m, null, new DateTime(2023, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 14, "177478640021" },
+                    { 8, 5.32m, 1500, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(3114), 2, null, true, 1, 20.75m, null, new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 16, "177478640021" },
+                    { 9, 0.053m, 60000, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(3136), 1, null, true, 2, 0.1275m, null, new DateTime(2023, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 18, "177478640021" },
+                    { 10, 0.0033m, 15000, 2, 1, new DateTime(2023, 12, 20, 11, 19, 37, 435, DateTimeKind.Local).AddTicks(3155), 0, null, true, 1, 0.04275m, null, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, 15, "177478640021" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "DateConfigs",
+                columns: new[] { "Id", "CommisionTypeId", "ControlDateModifierType", "ControlDateOffsetType", "ControlDateOffsetValue", "ControlDateType" },
+                values: new object[,]
+                {
+                    { 1, 1, 0, 4, 2, 0 },
+                    { 2, 2, 0, 0, 0, 0 },
+                    { 3, 3, 0, 0, 0, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -590,24 +634,35 @@ namespace NETBroker.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommisionTypes_CommissionConfigurationTypeId",
-                table: "CommisionTypes",
-                column: "CommissionConfigurationTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CommisionTypes_DateConfigId",
-                table: "CommisionTypes",
-                column: "DateConfigId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CommisionTypes_SalesProgramId",
                 table: "CommisionTypes",
                 column: "SalesProgramId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContractItemAttachments_ContractItemId",
+                table: "ContractItemAttachments",
+                column: "ContractItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractItemForecasts_ContractItemId",
+                table: "ContractItemForecasts",
+                column: "ContractItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractItemForecasts_SaleProgramId",
+                table: "ContractItemForecasts",
+                column: "SaleProgramId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ContractItems_ContractId",
                 table: "ContractItems",
                 column: "ContractId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContractItems_SaleProgramId",
+                table: "ContractItems",
+                column: "SaleProgramId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contracts_CloserId",
@@ -633,6 +688,12 @@ namespace NETBroker.Migrations
                 name: "IX_Contracts_SupplierId",
                 table: "Contracts",
                 column: "SupplierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DateConfigs_CommisionTypeId",
+                table: "DateConfigs",
+                column: "CommisionTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deposits_SupplierId",
@@ -664,10 +725,13 @@ namespace NETBroker.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CommisionTypes");
+                name: "ContractItemAttachments");
 
             migrationBuilder.DropTable(
-                name: "ContractItems");
+                name: "ContractItemForecasts");
+
+            migrationBuilder.DropTable(
+                name: "DateConfigs");
 
             migrationBuilder.DropTable(
                 name: "Deposits");
@@ -679,10 +743,10 @@ namespace NETBroker.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "CommissionConfigurationTypes");
+                name: "ContractItems");
 
             migrationBuilder.DropTable(
-                name: "DateConfigs");
+                name: "CommisionTypes");
 
             migrationBuilder.DropTable(
                 name: "Contracts");

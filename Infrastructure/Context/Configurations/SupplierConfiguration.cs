@@ -21,7 +21,8 @@ namespace Infrastructure.Context.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
-                new Supplier(1, "IGS", 1)
+                new Supplier(1, "IGS", 1),
+                new Supplier(2, "TTS", 1)
             );
         }
     }

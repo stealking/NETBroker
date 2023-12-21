@@ -2,9 +2,9 @@
 {
     public class AnnualUssageQualification : Qualification
     {
-        private AnnualUssageQualification()
+        public AnnualUssageQualification()
         {
-
+            
         }
         public AnnualUssageQualification(int id, int salesProgramId, int fromAnnualUsage, int toAnnualUsage)
         {

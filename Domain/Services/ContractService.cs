@@ -156,12 +156,9 @@ namespace Domain.Services
             var passItems = 0;
             var failedItems = 0;
             var salePrograms = await repositoryManager.SaleProgramsRepository.FindByCondition(x => true, x => x.Qualifications).ToListAsync();
-            Parallel.ForEach(contract.ContractItems, (contractItem) => {
+            Parallel.ForEach(contract.ContractItems, new ParallelOptions { MaxDegreeOfParallelism = 4 }, (contractItem) =>
+            {
                 var result = contractItem.VerifyForecastability(salePrograms);
-                if (result.Item1)
-                    passItems++;
-                else
-                    failedItems++;
             });
 
             return (passItems, failedItems);

@@ -14,7 +14,7 @@ namespace TestProject
         [TestCase(ControlDateTypes.UtilityAcceptanceDate, ExpectedResult = "2023-03-14")]
         public DateTime? ControlDateTest(ControlDateTypes controlDateTypes)
         {
-            var dateConfig = new DateConfig(1, controlDateTypes, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0);
+            var dateConfig = new DateConfig(1, 1, controlDateTypes, ControlDateModifierTypes.NoModifier, ControlDateOffsetType.NoOffset, 0);
             var contract = new Contract(1, 1, "John A", 1, 1, 1, 1, new DateTime(2023, 03, 14), BillingChargeTypes.AllIn, BillingTypes.ChickenRanch, EnrollmentTypes.TPV, PricingTypes.Matrix, 1, Stage.Opportunity);
             var contractItem = new ContractItem(1, 1, "9138014006", new DateTime(2023, 04, 14), 24, ProductTypes.Elec, EnergyUnitTypes.KWH, 58398, (decimal)0.01275, (decimal)0.0075, 1, Status.None, contract);
             var result = dateConfig.GetControlDate(contractItem);
@@ -45,7 +45,7 @@ namespace TestProject
         [TestCase(ControlDateModifierTypes.CutOff15ofMonthFollowingThursday, "2023-12-25", ExpectedResult = "2024-01-18")]
         public DateTime? ControlDateModifierTypeTest(ControlDateModifierTypes controlDateModifierTypes, DateTime date)
         {
-            var dateConfig = new DateConfig(1, ControlDateTypes.SoldDate, controlDateModifierTypes, ControlDateOffsetType.NoOffset, 0);
+            var dateConfig = new DateConfig(1, 1, ControlDateTypes.SoldDate, controlDateModifierTypes, ControlDateOffsetType.NoOffset, 0);
             var result = dateConfig.GetControlDateModifierType(date);
             return result;
         }
@@ -67,7 +67,7 @@ namespace TestProject
         [TestCase(ControlDateOffsetType.FirstDayAfterOffSet_Fridays, 5, "2023-12-11", ExpectedResult = "2023-12-22")]
         public DateTime? ControlDateOffsetTypeTest(ControlDateOffsetType controlDateOffsetType, int offsetValue, DateTime date)
         {
-            var dateConfig = new DateConfig(1, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, controlDateOffsetType, offsetValue);
+            var dateConfig = new DateConfig(1, 1, ControlDateTypes.SoldDate, ControlDateModifierTypes.NoModifier, controlDateOffsetType, offsetValue);
             var result = dateConfig.GetControlDateOffsetType(date);
             return result;
         }
