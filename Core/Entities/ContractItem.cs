@@ -6,7 +6,7 @@ namespace Core.Entities
 {
     public class ContractItem : BaseCreateTable
     {
-        private ContractItem()
+        public ContractItem()
         {
 
         }
@@ -80,7 +80,7 @@ namespace Core.Entities
 
         public EnergyUnitTypes EnergyUnitType { get; private set; }
 
-        public int AnnualUsage { get; private set; }
+        public decimal AnnualUsage { get; private set; }
 
         [DisplayFormat(DataFormatString = "{0:N5}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\d{1,5}(\.\d{1,5})?$", ErrorMessage = "Invalid Rate format.")]
@@ -95,6 +95,8 @@ namespace Core.Entities
 
         public int? SaleProgramId { get; private set; }
         public SaleProgram? SaleProgram { get; private set; }
+
+        public decimal ContractMargin { get; set; }
 
         public ICollection<ContractItemAttachment> Attachments { get; private set; } = new List<ContractItemAttachment>();
 

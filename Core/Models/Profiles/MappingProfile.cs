@@ -8,6 +8,7 @@ using Core.Models.Requests.Users;
 using Core.Models.Response.ContractItemAttachments;
 using Core.Models.Response.ContractItems;
 using Core.Models.Response.Contracts;
+using Core.Models.Response.Reports;
 using Core.Models.Response.Suppliers;
 using Core.Models.Response.Users;
 
@@ -60,6 +61,11 @@ namespace Core.Models.Profiles
 
             CreateMap<ContractItemAttachmentRequest,  ContractItemAttachment>();
             CreateMap<ContractItemAttachment, ContractItemAttachmentResponse>().ReverseMap();
+
+            CreateMap<ContractItem, SummaryDashBoardReportDTO>()
+                .ForMember(p => p.AnnualUsage, opt => opt.MapFrom(x => x.AnnualUsage))
+                .ForMember(p => p.SupplierId, opt => opt.MapFrom(x => x.Contract.SupplierId))
+                .ForMember(p => p.SupplierName, opt => opt.MapFrom(x => x.Contract.Supplier.Name));
         }
     }
 }

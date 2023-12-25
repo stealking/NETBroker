@@ -75,5 +75,6 @@ app.UseSwaggerUI(s =>
 app.UseIpRateLimiting();
 // Seed the default user
 DataSeeder.SeedDefaultUserAsync(app.Services).Wait();
+DataSeeder.SeedData(app.Services).Wait();
 
 app.Run();

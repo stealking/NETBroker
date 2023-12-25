@@ -18,6 +18,7 @@ namespace Domain.Services
         private readonly Lazy<IContactService> _contactService;
         private readonly Lazy<IFileService> _fileService;
         private readonly Lazy<IContractItemAttachmentService> _contractItemAttachmentService;
+        private readonly Lazy<IReportService> _reportService;
 
         public ServiceManager(IRepositoryManager repositoryManager, UserManager<UserProfile> userManager, AppSettings appSettings, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
@@ -29,6 +30,7 @@ namespace Domain.Services
             _contractItemService = new Lazy<IContractItemService>(() => new ContractItemService(repositoryManager, mapper, _fileService.Value));
             _contactService = new Lazy<IContactService>(() => new ContactService(repositoryManager, mapper));
             _contractItemAttachmentService = new Lazy<IContractItemAttachmentService>(() => new ContractItemAttachmentService(repositoryManager, mapper));
+            _reportService = new Lazy<IReportService>(() => new ReportService(repositoryManager, mapper));
         }
         public IUserService UserService => _userService.Value;
         public ISupplierService SupplierService => _supplierService.Value;
@@ -38,5 +40,7 @@ namespace Domain.Services
         public IContactService ContactService => _contactService.Value;
         public IFileService FileService => _fileService.Value;
         public IContractItemAttachmentService ContractItemAttachmentService => _contractItemAttachmentService.Value;
+
+        public IReportService ReportService => _reportService.Value;
     }
 }

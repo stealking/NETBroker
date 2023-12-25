@@ -5,7 +5,7 @@ namespace Core.Entities
 {
     public class Contract : BaseCreateTable
     {
-        private Contract()
+        public Contract()
         {
         }
 

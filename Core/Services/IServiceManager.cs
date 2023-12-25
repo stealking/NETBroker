@@ -10,5 +10,6 @@
         IContactService ContactService { get; }
         IFileService FileService { get; }
         IContractItemAttachmentService ContractItemAttachmentService { get; }
+        IReportService ReportService { get; }
     }
 }
